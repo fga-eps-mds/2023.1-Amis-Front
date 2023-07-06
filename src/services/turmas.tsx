@@ -42,17 +42,17 @@ export const editarTurmas = async (
       // Ocorreu um erro de resposta da API
       const { status, data } = error.response;
       if (status === 422) {
-        console.error(error.response);
+        //console.error(error.response);
         throw new Error(`Erro ao cadastrar a turma. Dados inválidos: ${data}`);
       } else {
-        console.error(error.response);
+        //console.error(error.response);
         Error(
           `Erro ao cadastrar a turma. Código de status: ${status}. Detalhes: ${data}`
         );
       }
     } else if (error.request) {
       // A requisição foi feita, mas não houve resposta da API
-      console.error(error);
+      //console.error(error);
       throw new Error(
         "Não foi possível cadastrar a turma. Por favor, verifique sua conexão de rede e tente novamente."
       );

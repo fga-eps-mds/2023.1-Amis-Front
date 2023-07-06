@@ -6,7 +6,7 @@ export const cadastraProfessor = async (payload: ProfessoresCadastrarDTO) => {
     const response = await apiUser.post("/teacher/", payload);
     return response;
   } catch (error) {
-    console.error(error);
+    //console.error(error);
     return error;
   }
 };

@@ -64,7 +64,7 @@ export function Instrucao(props: any) {
   
         setItems(data);
       } catch (error) {
-        console.error('Erro ao buscar as Intruções:', error);
+        //console.error('Erro ao buscar as Intruções:', error);
       }
     };
     const fetchOptions = async () => {
@@ -73,7 +73,7 @@ export function Instrucao(props: any) {
         const options = await response.data;
         setOptions(options);
       } catch (error) {
-        console.error('Erro ao buscar as Intruções', error);
+        //console.error('Erro ao buscar as Intruções', error);
       }
     };
 

@@ -6,7 +6,7 @@ export const cadastrarInstrucao= async (payload: InstrucoesCadastrarDTO) => {
     const response = await apiClassroom.post("/instrucaoCapacitacao/", payload);
     return response;
   } catch (error) {
-    console.error(error);
+    //console.error(error);
     return error;
   }
 };
