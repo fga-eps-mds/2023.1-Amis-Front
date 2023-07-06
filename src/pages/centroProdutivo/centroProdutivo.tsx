@@ -437,7 +437,6 @@ export function CentroProdutivo() {
         />
       ],
     },
-    { field: "idCentro", headerName: "Centro Produtivo", flex: 2 },
     { field: "descricao", headerName: "Descrição", flex: 2 },
     { field: "data_agendada", headerName: "Data de Alocação", flex: 2 },
     {
