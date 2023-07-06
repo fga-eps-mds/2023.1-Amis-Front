@@ -64,7 +64,8 @@ import {
       fireEvent.click(cadastrarButton);
   
       const tituloInput = screen.getByLabelText("Título *");
-      const inputCurso = screen.getByLabelText("Curso *");
+      
+      const inputCurso = screen.getByRole('combobox');
       const inputInstrucao = screen.getByLabelText("Instrução *");
   
       fireEvent.change(tituloInput, { target: { value: "BoloBolo" } });
