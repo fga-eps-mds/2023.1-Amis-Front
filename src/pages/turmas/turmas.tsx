@@ -541,7 +541,6 @@ export function Turmas(this: any) {
       setVagas(response.data as VagasListarDTO);
     }
   };
-  console.log("ROLEEEEEEE = " + role)
   const columnsTable = [
     {
       field: "actions",
