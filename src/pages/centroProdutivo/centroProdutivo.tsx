@@ -734,7 +734,7 @@ export function CentroProdutivo() {
                 sx={{ width: "100%", background: "#F5F4FF" }}
               />
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label" required={true}>
+                <InputLabel id="demo-simple-select-label">
                   Status
                 </InputLabel>
                 <Select
@@ -750,7 +750,7 @@ export function CentroProdutivo() {
               </FormControl>
 
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label" required={true}>
+                <InputLabel id="demo-simple-select-label">
                   Turno
                 </InputLabel>
                 <Select
