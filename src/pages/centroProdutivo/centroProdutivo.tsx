@@ -59,6 +59,7 @@ import ValueMask from "../../shared/components/Masks/ValueMask";
 import { VagasListarCentroDTO } from "./dtos/VagasListarCentro.dto";
 import { CentroInscritosDTO } from './dtos/CentroInscritosDTO';
 import { FaList } from 'react-icons/fa';
+import { gerarPDFRelatorio } from './utils/gerarPDFRelatorio';
 // Estado inicial vazio
 
 function transformDate(date: any) {
@@ -146,18 +147,26 @@ export function CentroProdutivo() {
   const [openList, setOpenList] = useState(false);
   const [openUnconfirmed, setOpenUnconfirmed] = useState(false);
   const [alunaToDelete, setAlunaToDelete] = useState<CentroInscritosDTO | null>(null);
-
-
-
+  
+  let timeoutOfLastUpdate: NodeJS.Timeout | null;
   const handleCellValueChange = (params: any) => {
-    const updatedRows = listaDeAlunas.map((row: any) => {
-      if (row.id === params.id) {
-        return { ...row, [params.field]: params.value };
-      }
-      return row;
+    const row = listaDeAlunas.find((row: any) => {
+      return row.id === params.id
     });
+    if(!row) {
+      return;
+    }
 
-    setListaDeAlunas(updatedRows);
+    // Atualizar estado do react apenas se o usuário ficar mais de 500ms sem digitar
+    // Evita lag d+++++
+    row[params.field] = params.value;
+    if(timeoutOfLastUpdate) {
+      clearTimeout(timeoutOfLastUpdate);
+      timeoutOfLastUpdate = setTimeout(() => {
+        setListaDeAlunas([...listaDeAlunas]);
+        timeoutOfLastUpdate = null;
+      }, 500);
+    }
   };
 
   const handleOpenExportar = () => {
@@ -555,6 +564,7 @@ export function CentroProdutivo() {
       renderCell: (params: any) => (
         <TextField
           // value={params.value}
+          onKeyDown={(e) => e.stopPropagation()}
           onChange={(e) => {
             handleCellValueChange({ id: params.row.id, field: 'comentario', value: e.target.value });
           }}
@@ -593,6 +603,7 @@ export function CentroProdutivo() {
           fullWidth
           variant="outlined"
           size="small"
+          type='number'
         />
       ),
     },
@@ -609,6 +620,7 @@ export function CentroProdutivo() {
           fullWidth
           variant="outlined"
           size="small"
+          type='number'
         />
       ),
     },
@@ -625,6 +637,7 @@ export function CentroProdutivo() {
           fullWidth
           variant="outlined"
           size="small"
+          type='number'
         />
       ),
     },
@@ -890,6 +903,7 @@ export function CentroProdutivo() {
               <PrimaryButton
                 text={"Exportar PDF"}
                 handleClick={() => {
+                  gerarPDFRelatorio(listaDeAlunas);
                   salvarDadosRelatorio(listaDeAlunas)
                   handleCloseExportar();
                 }}
