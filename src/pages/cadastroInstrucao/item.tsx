@@ -109,14 +109,6 @@ export function Item(props: any) {
       }
     };
 
-    // const getCurso = async (): Promise<void> =>  {
-    //   const response = await listarCursoPorId(props.subtitulo);
-    //   console.log(response)
-    //   setCurso(response.data);
-    // }
-
-    // getCurso()
-    // console.log(curso)
 
     return (
       <div style={styles.item}>
