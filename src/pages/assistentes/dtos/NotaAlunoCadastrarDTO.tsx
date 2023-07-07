@@ -1,5 +1,3 @@
-import {Dayjs} from "dayjs";
-
 export interface NotaAlunoCadastrarDTO {
     nome: string;
     comentario: string;
