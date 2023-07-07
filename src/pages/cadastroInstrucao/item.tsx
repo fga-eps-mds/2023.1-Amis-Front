@@ -5,7 +5,6 @@ import { AiFillEdit } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
 import { excluirInstrucao } from "../../services/instrucoes";
 import { toast } from "react-toastify";
-import { listarCursoPorId } from '../../services/cursos';
 import { queryClient } from "../../services/queryClient";
 import { AuthContext } from "../../context/AuthProvider";
 
