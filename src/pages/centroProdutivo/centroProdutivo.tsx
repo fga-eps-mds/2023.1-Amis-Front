@@ -57,9 +57,9 @@ import { AuthContext } from "../../context/AuthProvider";
 import ValueMask from "../../shared/components/Masks/ValueMask";
 // import { VagasCentroProdutivoDTO } from "./dtos/VagasCentroProdutivo";
 import { VagasListarCentroDTO } from "./dtos/VagasListarCentro.dto";
-import { CentroInscritosDTO } from './dtos/CentroInscritosDTO';
-import { FaList } from 'react-icons/fa';
-import { gerarPDFRelatorio } from './utils/gerarPDFRelatorio';
+import { CentroInscritosDTO } from "./dtos/CentroInscritosDTO";
+import { FaList } from "react-icons/fa";
+import { gerarPDFRelatorio } from "./utils/gerarPDFRelatorio";
 // Estado inicial vazio
 
 function transformDate(date: any) {
@@ -146,21 +146,23 @@ export function CentroProdutivo() {
 
   const [openList, setOpenList] = useState(false);
   const [openUnconfirmed, setOpenUnconfirmed] = useState(false);
-  const [alunaToDelete, setAlunaToDelete] = useState<CentroInscritosDTO | null>(null);
+  const [alunaToDelete, setAlunaToDelete] = useState<CentroInscritosDTO | null>(
+    null
+  );
   let timeoutOfLastUpdate: NodeJS.Timeout | null;
-  
+
   const handleCellValueChange = (params: any) => {
     const row = listaDeAlunas.find((row: any) => {
-      return row.id === params.id
+      return row.id === params.id;
     });
-    if(!row) {
+    if (!row) {
       return;
     }
 
     // Atualizar estado do react apenas se o usuário ficar mais de 500ms sem digitar
     // Evita lag d+++++
     row[params.field] = params.value;
-    if(timeoutOfLastUpdate) {
+    if (timeoutOfLastUpdate) {
       clearTimeout(timeoutOfLastUpdate);
       timeoutOfLastUpdate = setTimeout(() => {
         setListaDeAlunas([...listaDeAlunas]);
@@ -409,7 +411,7 @@ export function CentroProdutivo() {
       field: "actions",
       headerName: "Ações",
       type: "actions",
-      flex: 3,
+      flex: 2.5,
       hide: role === "student",
       getActions: (params: any) => [
         <IconButton
@@ -457,7 +459,7 @@ export function CentroProdutivo() {
       ],
     },
 
-    { field: "descricao", headerName: "Descrição", flex: 2 },
+    { field: "descricao", headerName: "Descrição", flex: 4 },
     { field: "data_agendada", headerName: "Data de Alocação", flex: 2 },
     {
       field: "status",
@@ -497,7 +499,7 @@ export function CentroProdutivo() {
         }
       },
     },
-    { field: "vagasRestantes", headerName: "Vagas", flex: 2 },
+    { field: "vagasRestantes", headerName: "Vagas", flex: 1.5 },
     role === "student" && {
       field: "inscricao",
       headerName: "Inscrições",
@@ -548,7 +550,7 @@ export function CentroProdutivo() {
           params.row.status === 1 &&
           role === "supervisor" ? (
             <ActionButton
-              text="Desagendar"
+              text="Bloquear"
               handleClick={() => {
                 alteraAgendamento(params.row);
               }}
@@ -556,7 +558,7 @@ export function CentroProdutivo() {
           ) : vaga[Number(params.id)].vagasDisponiveis >= 1 &&
             params.row.status === 2 ? (
             <ActionButton
-              text="Agendar"
+              text="Habilitar"
               handleClick={() => {
                 alteraAgendamento(params.row);
               }}
@@ -627,7 +629,7 @@ export function CentroProdutivo() {
           fullWidth
           variant="outlined"
           size="small"
-          type='number'
+          type="number"
         />
       ),
     },
@@ -648,7 +650,7 @@ export function CentroProdutivo() {
           fullWidth
           variant="outlined"
           size="small"
-          type='number'
+          type="number"
         />
       ),
     },
@@ -669,7 +671,7 @@ export function CentroProdutivo() {
           fullWidth
           variant="outlined"
           size="small"
-          type='number'
+          type="number"
         />
       ),
     },
@@ -939,7 +941,7 @@ export function CentroProdutivo() {
                 text={"Exportar PDF"}
                 handleClick={() => {
                   gerarPDFRelatorio(listaDeAlunas);
-                  salvarDadosRelatorio(listaDeAlunas)
+                  salvarDadosRelatorio(listaDeAlunas);
                   handleCloseExportar();
                 }}
               />
