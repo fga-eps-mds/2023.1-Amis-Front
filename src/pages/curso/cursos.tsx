@@ -224,7 +224,6 @@ export function Curso() {
         </IconButton>,
       ],
     },
-    { field: "id", headerName: "Código", flex: 2 },
     { field: "nome", headerName: "Nome do curso", flex: 2 },
     { field: "descricao", headerName: "Descrição", flex: 2 },
     { field: "duracaoHoras", headerName: "Duração (em horas)", flex: 2 },
