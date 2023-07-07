@@ -14,9 +14,14 @@ import {
   BiUser,
   BiBuilding,
 } from "react-icons/bi";
-import { MdSchool } from 'react-icons/md';
+import { MdSchool } from "react-icons/md";
 import { FiSettings } from "react-icons/fi";
-import { FaChalkboardTeacher, FaUserShield, FaIndustry, FaHeart } from "react-icons/fa";
+import {
+  FaChalkboardTeacher,
+  FaUserShield,
+  FaIndustry,
+  FaHeart,
+} from "react-icons/fa";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 import { grey } from "@mui/material/colors";
@@ -114,7 +119,7 @@ export function Sidebar() {
           size={22}
         />
       ),
-      allowedRoles: ["teacher", "socialWorker"],
+      allowedRoles: ["teacher", "socialWorker", "supervisor"],
     },
     {
       id: 4,
@@ -152,17 +157,6 @@ export function Sidebar() {
       ),
       allowedRoles: ["socialWorker"],
     },
-    // {
-    //   id: 5,
-    //   name: "Relatórios",
-    //   path: "/relatorios",
-    //   icon: (
-    //     <HiOutlineDocumentReport
-    //       color={pathname === "/relatorios" ? "#da4d3d" : "#525252"}
-    //       size={22}
-    //     />
-    //   ),
-    // },
     {
       id: 6,
       name: "Turmas",
@@ -175,17 +169,6 @@ export function Sidebar() {
       ),
       allowedRoles: ["teacher", "socialWorker", "student"],
     },
-    // {
-    //   id: 7,
-    //   name: "Configurações",
-    //   path: "/configurações",
-    //   icon: (
-    //     <FiSettings
-    //       color={pathname === "/configurações" ? "#da4d3d" : "#525252"}
-    //       size={22}
-    //     />
-    //   ),
-    // },
     {
       id: 7,
       name: "Cursos",
@@ -196,7 +179,7 @@ export function Sidebar() {
           size={22}
         />
       ),
-      allowedRoles: ["socialWorker", "student", "supervisor", "teacher"],
+      allowedRoles: ["socialWorker", "student", "teacher"],
     },
 
     {
