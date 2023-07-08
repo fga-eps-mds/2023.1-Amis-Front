@@ -1,23 +1,19 @@
-import React, { SyntheticEvent, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import Sidebar from "../../shared/components/Sidebar/sidebar";
 import Navbarlog from "../../shared/components/NavbarLogada/navbarLogada";
 import DataTable from "../../shared/components/TablePagination/tablePagination";
 import PrimaryButton from "../../shared/components/PrimaryButton/PrimaryButton";
 import {
-  Autocomplete,
+
   Box,
   Button,
   Dialog,
   DialogActions,
   DialogTitle,
-  FormControl,
   IconButton,
-  InputLabel,
-  MenuItem,
   Modal,
   Paper,
-  Select,
   Table,
   TableBody,
   TableCell,
@@ -56,12 +52,11 @@ import {
   desmatricularAluna,
   listarAlunasNaTurma,
   listarAlunas,
-  listarVagasTurma,
-  confereTurmaMatricula,
+
 } from "../../services/turmas";
 import { parse, compareAsc } from "date-fns";
 import { AiFillEdit } from "react-icons/ai";
-import { excluirAssistente } from "../../services/assistentes";
+import { } from "../../services/assistentes";
 import { AuthContext } from "../../context/AuthProvider";
 
 const Container = styled.div`
@@ -396,7 +391,7 @@ export function Turmas(this: any) {
   };
 
   const desmatAluna = async (codigoTurma: number, idAluna: string) => {
-    console.log("id da aluna:"+idAluna);
+    console.log("id da aluna:" + idAluna);
     const response = await desmatricularAluna(codigoTurma, idAluna);
     if (response.status === 204) {
       toast.success("Aluna(s) removida(s) da turma com sucesso!");
@@ -447,10 +442,9 @@ export function Turmas(this: any) {
     status: string
   ): Promise<number> => {
     const response = await listarAlunasNaTurma(codigoTurma);
-    // if (response.status===404){
-    console.log("o status:"+response.status);
-    // }
-    // console.log("Fui chamado:"+response.status);
+
+    console.log("o status:" + response.status);
+
     if (status == "false") {
       if (response.status === 200) {
         // console.log("Foi aqui")
@@ -461,22 +455,21 @@ export function Turmas(this: any) {
             const response2 = await listaAlunaAtual(value.idAluna);
             const nomeDaAluna = response2.data.nome;
             const cpfDaAluna = response2.data.cpf;
-            // const [year, month, day] = response2.data.data_nascimento.split("-");
-            // const dataFormatada = `${day}/${month}/${year}`;
+
             temp.push({
               id: index, // Adiciona um id único com base no índice
               idAluna: value.idAluna,
               nome: nomeDaAluna,
               cpf: cpfDaAluna,
               data_nascimento: response2.data.data_nascimento,
-              login:response2.data.login,
+              login: response2.data.login,
             });
           }
           setAlunasTurma(temp);
-          // console.log("Isso que busquei:" + temp[0].idAluna);
+
           return 0;
         } else {
-          // console.log("nenhuma aluna");
+
           setAlunasTurma(temp);
           return 0;
         }
@@ -518,7 +511,7 @@ export function Turmas(this: any) {
             senha: value.senha,
           });
         });
-        // console.log(temp);
+
         setDataTableAlunas(temp);
       } else {
         setDataTableAlunas([]);
@@ -527,15 +520,15 @@ export function Turmas(this: any) {
   });
 
   const listarIDAluna = (idDaAluna: string) => {
-    // console.log("O id da aluna no listar:"+idDaAluna);
+
     setIdAluna(idDaAluna);
   };
 
   const listarVagas = async (codigoTurmaVagas: number) => {
-    // console.log("Passou aq");
+
     const response = await listarTurma(codigoTurmaVagas);
     const response2 = await consultaAlunasNaTurma(codigoTurmaVagas, "true");
-    // console.log("codigo da turma no listarvagas"+codigoTurmaVagas);
+
     if (response.status === 200) {
       response.data.vagasDisponiveis = response.data.capacidade_turma - response2;
       setVagas(response.data as VagasListarDTO);
@@ -550,12 +543,12 @@ export function Turmas(this: any) {
       width: 200,
       hide: role === "student",
       getActions: (params: { id: GridRowId }) => [
-        // eslint-disable-next-line react/jsx-key
+
         <GridActionsCellItem
           icon={<BsFillPersonPlusFill size={20} />}
           label="MatricularAlunas"
           onClick={async () => {
-            // await listarcodigoTurma(Number(params.id));
+
             carregarAddAlunaTurma(params.id);
             await queryClient.invalidateQueries("listar_alunas");
             setOpenMatricula(true);
@@ -568,10 +561,6 @@ export function Turmas(this: any) {
           onClick={async () => {
             setAlunasTurma([]);
             carregarAddAlunaTurma(params.id);
-            // await listarcodigoTurma(Number(params.id));
-            // setId(params.id);
-            // const codigoTurma = params.id;
-            // await listarVagas(Number(codigoTurma));
             setOpenList(true);
           }}
         />,
@@ -921,7 +910,7 @@ export function Turmas(this: any) {
 
                   const aluna = response as AlunasListarDTO;
                   const alunaLogin = aluna.login;
-                  // console.log("O login selecionado:"+aluna.login);
+
                   setAlunaSelecionada(aluna);
                   return alunaLogin;
                 });
