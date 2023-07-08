@@ -350,6 +350,12 @@ export function Turmas(this: any) {
       return;
     }
 
+    if (data.dataInicioTurmaEdit > data.dataFimTurmaEdit) {
+      toast.error("A data de fim deve ser posterior à data de início.");
+      return;
+    }
+
+
     if (data.capacidadeTurmaEdit <= 0) {
       toast.error("A capacidade_turma deve ser um número maior que 0.");
       return;
