@@ -144,9 +144,10 @@ function validateHorarios(inicio_aula: string, fim_aula: string): boolean {
   ) {
     return true; // inicio_aula é anterior a fim_aula e dentro do intervalo válido
   }
-
   return false; // inicio_aula não é anterior a fim_aula ou fora do intervalo válido
 }
+
+
 
 export function Turmas(this: any) {
   const [open, setOpen] = useState(false);
@@ -227,6 +228,11 @@ export function Turmas(this: any) {
 
     turma.data_inicio = transformDate(turma.data_inicio);
     turma.data_fim = transformDate(turma.data_fim);
+
+    if (turma.data_inicio > turma.data_fim) {
+      toast.error("A data de fim deve ser posterior à data de início.");
+      return;
+    }
 
     // console.log(turma);
     turma.fk_curso = Math.round(turma.fk_curso);
