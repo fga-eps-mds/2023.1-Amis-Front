@@ -185,7 +185,8 @@ export function Turmas(this: any) {
     register,
     handleSubmit,
     setValue,
-    formState: {  },
+    formState: { errors },
+    reset,
   } = methods;
   const [alunasTurma, setAlunasTurma] = useState(Array<Object>);
   const { role } = useContext(AuthContext);
@@ -241,6 +242,7 @@ export function Turmas(this: any) {
     if (response.status === 201) {
       setOpen(false);
       toast.success("Turma criada com sucesso!");
+      reset();
     } else {
       toast.error("Erro ao criar a turma.");
     }

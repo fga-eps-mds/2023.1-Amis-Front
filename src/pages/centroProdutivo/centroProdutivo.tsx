@@ -233,6 +233,8 @@ export function CentroProdutivo() {
 
     const temp: CentrosListarDTO[] = [];
     response.data.forEach((value: CentrosListarDTO, index: number) => {
+      const [year, month, day] = value.data_agendada.split("-");
+      value.data_agendada = `${day}/${month}/${year}`;
       temp.push({
         id: index,
         idCentro: value.id,
@@ -242,10 +244,6 @@ export function CentroProdutivo() {
         turno: value.turno,
         vagasRestantes: value.vagasRestantes,
       });
-      vagasAtuais[index] = {
-        vagasTotais: value.vagasRestantes,
-        vagasDisponiveis: value.vagasRestantes,
-      };
       vagasAtuais[index] = {
         vagasTotais: value.vagasRestantes,
         vagasDisponiveis: value.vagasRestantes,
@@ -369,6 +367,7 @@ export function CentroProdutivo() {
   };
 
   const editCentro = async (data: any) => {
+    data.data_agendadaEdit = transformDate(data.data_agendadaEdit);
     const centroEditado = {
       id: Centro.idCentro,
       data_agendada: data.data_agendadaEdit,

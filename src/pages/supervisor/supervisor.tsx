@@ -74,6 +74,7 @@ export function Supervisor() {
           register, 
           handleSubmit,
           formState: { errors },
+          reset,
         } = methods;
 
   const methodsForEdit = useForm<SupervisorDTO>();
@@ -114,6 +115,11 @@ export function Supervisor() {
       return;
     }
 
+    supervisor.data.forEach((value: SupervisorDTO, index: number) => {
+      const [year, month, day] = value.data_nascimento.split("-");
+      value.data_nascimento = `${day}/${month}/${year}`;
+    });
+
     setDataTable(supervisor.data);
   });
 
@@ -124,7 +130,7 @@ export function Supervisor() {
     if (!supervisor) {
       return;
     }
-
+    
     setValue("cpf", supervisor.cpf);
     setValue("data_nascimento", supervisor.data_nascimento);
     setValue("email", supervisor.email);
@@ -144,6 +150,7 @@ export function Supervisor() {
       .join("-");
 
     await editarSupervisor(payload.login, payload);
+    toast.success("Supervisor editado com sucesso!")
     await queryClient.invalidateQueries("listar_supervisor");
     setIsEditModalOpen(false);
   }
@@ -210,7 +217,8 @@ export function Supervisor() {
       return;
     }
 
-    toast.success("Supervisor Cadastrado Com Sucesso");
+    toast.success("Supervisor cadastrado com sucesso");
+    reset();
     await queryClient.invalidateQueries("listar_supervisor");
     setIsRegisterModalOpen(false);
   }
@@ -334,7 +342,6 @@ export function Supervisor() {
                 </InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-password"
-                  autoComplete="new-password"
                   type={showPassword ? "text" : "password"}
                   {...register("senha")}
                   endAdornment={
@@ -364,15 +371,17 @@ export function Supervisor() {
                 />
               </FormControl>
 
-              <FormControl sx={{ width: "100%", background: "#F5F4FF" }} variant="outlined">
+              <FormControl
+                sx={{ width: "100%", background: "#F5F4FF" }}
+                variant="outlined"
+              >
                 <InputLabel htmlFor="outlined-adornment-confirm-password" required={true}>
                   Confirmar senha
                 </InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-confirm-password"
-                  autoComplete="new-password" // Add this line
                   type={showConfirmPassword ? "text" : "password"}
-                  {...register("senha", { validate: validatePassword })}
+                  {...register("senhaConfirmada", { validate: validatePassword })}
                   endAdornment={
                     <InputAdornment position="end">
                       {showConfirmPassword ? (
@@ -399,11 +408,15 @@ export function Supervisor() {
                   label="Password********"
                 />
                 {errors.senhaConfirmada && (
-                  <Typography variant="body2" color="error" sx={{ mt: 0.4, mb: -3 }}>
-                    Senha não corresponde!
+                  <Typography
+                    variant="body2"
+                    color="error"
+                    sx={{ mt: 0.4, mb: -3 }}
+                  >Senha não corresponde!
                   </Typography>
                 )}
               </FormControl>
+              
               <ValueMask label="data_nascimento" />
               <ValueMask label="telefone" />
               <PrimaryButton data-testid="teste-cadastrar" text={"Confirmar"} />

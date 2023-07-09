@@ -88,6 +88,7 @@ export function Alunas() {
     watch,
     setValue,
     formState: { errors },
+    reset,
   } = methods;
 
   function transformDate(date: any) {
@@ -175,6 +176,7 @@ export function Alunas() {
     if (response.status === 201) {
       handleClose();
       toast.success("Aluna cadastrada com sucesso!");
+      reset();
     } else {
       toast.error("Erro ao cadastrar a aluna.");
     }
