@@ -32,17 +32,7 @@ export const editarAluna = async (alunaId: string, aluna: Object) => {
   try {
     const response = await apiUser.put("/student/" + alunaId, aluna);
     return response;
-  } catch (error: any) {
-
-
-    if (error.response) {
-
-    } else if (error.request) {
-
-    } else {
-
-    }
-
+  } catch (error:any) {  
     throw new Error("Ocorreu um erro ao editar a aluna. Por favor, tente novamente.");
   }
 };

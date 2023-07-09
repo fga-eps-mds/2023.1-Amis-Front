@@ -6,7 +6,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { Alunas } from "./pages/alunas/alunas";
-import { Instrucao } from "./pages/cadastroInstrucao/instrucao";
+import { Instrucao } from "./pages/instrucoes/instrucao";
 import { Home } from "./pages/home/home";
 import { Login } from "./pages/login/login";
 
@@ -19,7 +19,7 @@ import { Backdrop, CircularProgress } from "@mui/material";
 import { Curso } from "./pages/curso/cursos";
 import { Supervisor } from "./pages/supervisor/supervisor";
 import { CentroProdutivo } from "./pages/centroProdutivo/centroProdutivo";
-
+import VisualizarInstrucao from "./pages/instrucoes/visualizarInstrucao";
 
 interface Props {
   component: React.ComponentType;

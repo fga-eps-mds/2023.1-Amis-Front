@@ -200,7 +200,8 @@ export function Turmas(this: any) {
     register,
     handleSubmit,
     setValue,
-    formState: {  },
+    formState: { errors },
+    reset,
   } = methods;
   const [alunasTurma, setAlunasTurma] = useState(Array<Object>);
   const { role } = useContext(AuthContext);
@@ -256,6 +257,7 @@ export function Turmas(this: any) {
     if (response.status === 201) {
       setOpen(false);
       toast.success("Turma criada com sucesso!");
+      reset();
     } else {
       toast.error("Erro ao criar a turma.");
     }
@@ -448,8 +450,8 @@ export function Turmas(this: any) {
       toast.error("Erro na remoção da(s) aluna(s) da turma.");
     }
     handleDesmatCloseConfirmation();
-    useQuery("consultaAlunasNaTurma", async () => {
-    });
+    queryClient.invalidateQueries("consultaAlunasNaTurma");
+    //useQuery("consultaAlunasNaTurma", async () => {});
   };
 
   const columnsTableAlunas = [
