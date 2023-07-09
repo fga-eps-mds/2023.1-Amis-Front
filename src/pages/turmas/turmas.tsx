@@ -27,6 +27,12 @@ import { FormProvider, useForm } from "react-hook-form";
 import { TurmasListarDTO } from "./dtos/TurmasListar.dto";
 import { TurmasCadastrarDTO } from "./dtos/TurmasCadastrar.dto";
 import { VagasListarDTO } from "./dtos/VagasListar.dto";
+
+import { listarCurso } from "../../services/cursos";
+import { CursosListarDTO } from "../curso/dtos/CursosListar.dto";
+import { listaProfessores } from "../../services/professores";
+import { ProfessoresListarDTO } from "../professores/dtos/ProfessoresListar.dto";
+
 import { GridActionsCellItem, GridRowId, DataGrid } from "@mui/x-data-grid";
 import {
   BsFillTrashFill,
@@ -51,6 +57,10 @@ import {
   listarAlunasNaTurma,
   listarAlunas,
 } from "../../services/turmas";
+
+import CursoSelect from "./cursoSelect";
+import ProfessoresSelect from "./professoresSelect";
+
 import { parse, compareAsc } from "date-fns";
 import { AiFillEdit } from "react-icons/ai";
 import { AuthContext } from "../../context/AuthProvider";
@@ -144,6 +154,8 @@ export function Turmas(this: any) {
   const [open, setOpen] = useState(false);
   const [turma, setTurma] = useState(Object);
   const [alunaSelecionada, setAlunaSelecionada] = useState(Object);
+  const [idCurso, setIdCurso] = useState('');
+  const [loginProfessores, setLoginProfessores] = useState('');
   const [id, setId] = useState<GridRowId>(0);
   const [codigoTurma, setcodigoTurma] = useState<GridRowId>(0);
   const [idAluna, setIdAluna] = useState<string>("");
@@ -164,7 +176,8 @@ export function Turmas(this: any) {
   const [vagasAtual, setVagasAtual] = useState<number>();
   const [matriculas, setMatriculas] = useState(Array);
   const [alunasSelecionadas, setAlunasSelecionadas] = useState<string[]>([]);
-
+  const [optionsCursos, setOptionsCursos] = useState<CursosListarDTO[]>([]);
+  const [optionsProfessores, setOptionsProfessores] = useState<ProfessoresListarDTO[]>([]);
   const [selectedTurma, setSelectedTurma] = useState<GridRowId>(0);
 
   const methods = useForm({});
@@ -218,11 +231,11 @@ export function Turmas(this: any) {
       return;
     }
 
-    turma.fk_curso = Math.round(turma.fk_curso);
+    /* turma.fk_curso = Math.round(turma.fk_curso);
     if (!Number.isInteger(turma.fk_curso)) {
       toast.error("O curso deve ser um inteiro!");
       return;
-    }
+    } */
 
     const response = await cadastrarTurmas(turma);
     if (response.status === 201) {
@@ -241,6 +254,32 @@ export function Turmas(this: any) {
     if (response.data && Array.isArray(response.data)) {
       response.data.forEach((value: TurmasListarDTO, index: number) => {
         const [y, m, d] = value.data_inicio.split("-");
+
+        const fetchOptionsCurso = async () => {
+          try {
+            const responseCurso = await listarCurso();
+            const optionsCurso = await responseCurso.data;
+            setOptionsCursos(optionsCurso);
+          } catch (error) {
+            console.error('Erro ao buscar as Turmas', error);
+          }
+        };
+
+        const fetchOptionsProfessores = async () => {
+          try {
+            const responseProfessores = await listaProfessores();
+            const optionsProfessores = await responseProfessores.data;
+            setOptionsProfessores(optionsProfessores);
+          } catch (error) {
+            console.error('Erro ao buscar as Turmas', error);
+          }
+        };
+
+        
+
+        fetchOptionsCurso();
+        fetchOptionsProfessores();
+
         const dataInicio = `${d}/${m}/${y}`;
 
         const [year, month, day] = value.data_fim.split("-");
@@ -574,6 +613,16 @@ export function Turmas(this: any) {
     { field: "data_fim", headerName: "Data de Término", width: 165 },
   ];
 
+  const handleSelectCurso= async (event: any) => {
+    setIdCurso(event);
+ 
+  };
+
+  const handleSelectProfessores= async (event: any) => {
+    setLoginProfessores(event);
+ 
+  };
+
   return (
     <Container>
       {" "}
@@ -581,6 +630,7 @@ export function Turmas(this: any) {
       <Content>
         <Navbarlog text={"Turmas"} />
         <DivButtons>
+
           {role !== "student" ? (
             <PrimaryButton text={"Cadastrar"} handleClick={handleOpen} />
           ) : (
@@ -640,13 +690,13 @@ export function Turmas(this: any) {
                 {...register("codigo")}
                 sx={{ width: "100%", background: "#F5F4FF" }}
               />
-              <TextField
-                id="outlined-curso"
-                required={true}
-                label="Curso"
-                {...register("fk_curso")}
-                sx={{ width: "100%", background: "#F5F4FF" }}
+
+               <CursoSelect 
+                cursos={optionsCursos} 
+                onSelectCurso={handleSelectCurso}
+                selectedOption={idCurso}
               />
+              
               <TextField
                 id="outlined-turma"
                 label="Nome da Turma"
@@ -668,13 +718,12 @@ export function Turmas(this: any) {
               <ValueMask label="inicio_aula" />
               <ValueMask label="fim_aula" />
 
-              <TextField
-                id="outlined-professor"
-                required={true}
-                label="Professor"
-                {...register("fk_professor")}
-                sx={{ width: "100%", background: "#F5F4FF" }}
+              <ProfessoresSelect
+                professores={optionsProfessores} 
+                onSelectProfessores={handleSelectProfessores}
+                selectedOption={loginProfessores}
               />
+
               <TextField
                 id="outlined-descricao"
                 label="Descrição"
