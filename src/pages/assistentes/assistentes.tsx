@@ -85,6 +85,7 @@ export function Assistentes() {
     handleSubmit,
     setValue,
     formState: { errors },
+    reset,
   } = methods;
 
   const registerAssistentes = async (data: any) => {
@@ -161,6 +162,7 @@ export function Assistentes() {
       setOpen(false);
       queryClient.invalidateQueries("listar_assistentes");
       toast.success("Assistente cadastrado com sucesso!");
+      reset();
     }
   };
 
