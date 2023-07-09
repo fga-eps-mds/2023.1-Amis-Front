@@ -11,7 +11,7 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import { GridRowId } from "@mui/x-data-grid";
+import { GridActionsCellItem, GridRowId } from "@mui/x-data-grid";
 import { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { AiFillEdit } from "react-icons/ai";
@@ -98,7 +98,7 @@ export function Curso() {
   const handleOpenConfirmation = () => setOpenConfirmation(true);
   const handleCloseConfirmation = () => setOpenConfirmation(false);
   const [openConfirmation, setOpenConfirmation] = useState(false);
-  const [] = useState(null);
+  const [selectedCurso, setSelectedCurso] = useState(null);
   const [curso, setCurso] = useState(Object);
   const [id, setId] = useState<GridRowId>(0);
   const [openEdit, setOpenEdit] = useState(false);
@@ -132,7 +132,7 @@ export function Curso() {
 
     const temp: CursosListarDTO[] = [];
     response.data.forEach((value: CursosListarDTO, index: number) => {
-
+      //console.log(value.nome);
       temp.push({
         id: value.id,
         nome: value.nome,
@@ -152,8 +152,8 @@ export function Curso() {
       toast.error("Erro ao excluir urso");
     }
 
-    handleCloseConfirmation();
-    await queryClient.invalidateQueries("listar_curso");
+      handleCloseConfirmation();
+      await queryClient.invalidateQueries("listar_curso");
   };
   const carregarCurso = async (id: any) => {
     const response = dataTable.find((element: any) => {
@@ -236,11 +236,11 @@ export function Curso() {
       <Content>
         <Navbarlog text={"Cursos"} />
         <DivButtons>
-          {role !== "student" ? (
+        {role !== "student" ? (
             <PrimaryButton text={"Cadastrar"} handleClick={handleOpen} />
-          ) : (
+        ) : (
             <></>
-          )}
+        )}
         </DivButtons>
         <DataTable data={dataTable} columns={columnsTableCursos} />
         <Dialog
@@ -294,7 +294,7 @@ export function Curso() {
         <Box sx={style}>
           <FormText>Altere os dados cadastrados</FormText>
           <Form onSubmit={handleSubmit(editCurso)}>
-            <TextField
+          <TextField
               id="outlined-codigo"
               label="Código"
               required={true}

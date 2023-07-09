@@ -9,7 +9,7 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useContext } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -118,9 +118,9 @@ export function Login() {
               sx={{ width: "60%", background: "#F5F4FF" }}
               variant="outlined"
             >
-              <InputLabel
-                required={true}
-                htmlFor="outlined-adornment-password"
+              <InputLabel 
+              required={true}
+              htmlFor="outlined-adornment-password"
               >
                 Senha
               </InputLabel>
@@ -164,7 +164,7 @@ export function Login() {
                 {...register("loginType", {
                   required: "This field is required",
                 })}
-              // placeholder="Tipo de Login"x
+                // placeholder="Tipo de Login"x
               >
                 <MenuItem key="socialWorker" value="socialWorker">
                   Assistente Social

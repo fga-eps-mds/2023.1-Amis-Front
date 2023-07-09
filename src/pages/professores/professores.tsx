@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Sidebar from "../../shared/components/Sidebar/sidebar";
 import Navbarlog from "../../shared/components/NavbarLogada/navbarLogada";
 import DataTable from "../../shared/components/TablePagination/tablePagination";
+import { GridActionsCellItem, GridRowId } from "@mui/x-data-grid";
 import PrimaryButton from "../../shared/components/PrimaryButton/PrimaryButton";
 import { queryClient } from "../../services/queryClient";
 import { BsFillTrashFill } from "react-icons/bs";
@@ -19,8 +20,11 @@ import {
   DialogActions,
   DialogTitle,
   InputLabel,
+  MenuItem,
   Modal,
+  Select,
   TextField,
+  Autocomplete,
   Typography,
   OutlinedInput,
   InputAdornment,
@@ -113,14 +117,14 @@ export function Professores() {
   const [professor, setProfessor] = useState(Object);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [] = useState(false);
+  const [showPasswordError, setShowPasswordError] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [dataTable, setDataTable] = useState(Array<Object>);
   const [id, setId] = useState<GridRowId>(0);
   const [openConfirmation, setOpenConfirmation] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const [setSelectedProfessor] = useState(null);
+  const [selectedProfeesor, setSelectedProfessor] = useState(null);
   const [nextId, setNextId] = useState(1); // Variável de estado para o próximo ID
   const handleOpenConfirmation = () => setOpenConfirmation(true);
   const handleCloseConfirmation = () => setOpenConfirmation(false);
@@ -128,12 +132,13 @@ export function Professores() {
   const {
     setValue,
     register,
+    trigger,
     handleSubmit,
     watch,
     reset,
     formState: { errors },
   } = methods;
-
+  
 
 
   const cadastrarProfessores = async (data: any) => {
@@ -200,7 +205,7 @@ export function Professores() {
 
     professor.cpf = removeSpecialCharacters(professor.cpf);
     professor.telefone = removeSpecialCharacters(professor.telefone);
-    professor.data_nascimento = transformDate(professor.data_nascimento);
+    professor.data_nascimento=transformDate(professor.data_nascimento);
 
     const response: any = await cadastraProfessor(professor);
     if (response.status === 201) {
@@ -214,10 +219,10 @@ export function Professores() {
   };
 
   const validatePassword = (value: any) => {
-    const password = watch("senha");
-    if (value === password) {
-      return true;
-    }
+      const password = watch("senha");
+      if (value === password) {
+        return true;
+     }
     return "As senhas não correspondem";
   };
 
@@ -234,11 +239,11 @@ export function Professores() {
         login: value.login,
         cpf: value.cpf,
         data_nascimento: dataFormatada,
-        senha: value.senha,
-        codigo: value.codigo,
-        email: value.email,
-        telefone: value.telefone,
-        habilidades: value.habilidades,
+        senha:value.senha,
+        codigo:value.codigo,
+        email:value.email,
+        telefone:value.telefone,
+        habilidades:value.habilidades,
       });
     });
     setDataTable(temp);
@@ -269,68 +274,68 @@ export function Professores() {
     });
 
     const professor = response as ProfessoresListarDTO;
-
+    
     setProfessor(professor);
     setValue("nomeEdit", professor.nome);
     setValue("cpfEdit", professor.cpf);
     setValue("data_nascimentoEdit", professor.data_nascimento);
     setValue("telefoneEdit", professor.telefone);
     setValue("emailEdit", professor.email);
-    setValue("habilidadesEdit", professor.habilidades);
-
-
+    setValue("habilidadesEdit",professor.habilidades);
+    
+    
     setOpenEdit(true);
   };
-
+  
   const editProfesores = async (data: any): Promise<void> => {
     // eslint-disable-next-line array-callback-return
-
+    
     const cpfValido = validateCPF(data.cpfEdit);
     if (!cpfValido) {
       return;
     }
-
+    
     const emailValido = validateEmail(data.emailEdit);
     if (!emailValido) {
       return;
     }
-
+    
     const dateValido = validateDate(data.data_nascimentoEdit);
     if (!dateValido) {
       return;
     }
-
+    
     const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
-
+    
     const matchResult = dateRegex.exec(data.data_nascimentoEdit);
-
+    
     if (!matchResult) {
       toast.error("Data de nascimento inválida.");
       return;
     }
     const [, dia, mes, ano] = matchResult;
-
+    
     const dataNascimento = new Date(Number(ano), Number(mes) - 1, Number(dia));
-
+    
     const ageValida = validateAge(dataNascimento);
     if (!ageValida) {
       return;
     }
-
+    
     const nomeValido = validateNome(professor.nome);
     if (!nomeValido) {
       return;
     }
-
+    
     // declarando id que sera editado.
-
-    const id = professor.login;
-
-    data.data_nascimentoEdit = transformDate(data.data_nascimentoEdit);
+    
+    const id=professor.login;
+    
+    data.data_nascimentoEdit=transformDate(data.data_nascimentoEdit);
     data.cpfEdit = removeSpecialCharacters(data.cpfEdit);
     data.telefoneEdit = removeSpecialCharacters(data.telefoneEdit);
-
-
+    
+    
     const professorEdit = {
       nome: data.nomeEdit,
       cpf: data.cpfEdit,
@@ -338,10 +343,10 @@ export function Professores() {
       email: data.emailEdit,
       data_nascimento: data.data_nascimentoEdit,
       telefone: data.telefoneEdit,
-      senha: professor.senha,
-      habilidades: data.habilidadesEdit,
+      senha:professor.senha,
+      habilidades:data.habilidadesEdit,
     } as ProfessoresCadastrarDTO;
-
+    
     const response = await editaProfessor(id.toString(), professorEdit);
     if (response.status === 200 || response.status === 204) {
       toast.success("Professor atualizado com sucesso!");
@@ -362,18 +367,18 @@ export function Professores() {
         // eslint-disable-next-line react/jsx-key
         <IconButton
           id="meu-grid-actions-cell-item"
-          data-testid="teste-editar"
-          onClick={async () => {
-            carregarProfessores(params.id);
-            setId(params.id);
-            setOpenEdit(true);
-          }}
-        >
-          <AiFillEdit size={20} />
-          <Typography variant="body2"></Typography>
-        </IconButton>,
+            data-testid="teste-editar"
+            onClick={async () => {
+              carregarProfessores(params.id);
+              setId(params.id);
+              setOpenEdit(true);
+            }}
+          >
+            <AiFillEdit size={20} />
+            <Typography variant="body2"></Typography>
+          </IconButton>,
 
-        <IconButton
+          <IconButton
           data-testid="teste-excluir"
           onClick={() => {
             setId(params.id);
@@ -381,8 +386,7 @@ export function Professores() {
             if (selectedRow) {
               setSelectedProfessor((selectedRow as any).login);
               handleOpenConfirmation();
-            }
-          }
+          }}
           }>
           <BsFillTrashFill size={18} />
           <Typography variant="body2"></Typography>
@@ -394,7 +398,7 @@ export function Professores() {
     { field: "login", headerName: "Login", flex: 2 },
     { field: "cpf", headerName: "CPF", flex: 2 },
     { field: "data_nascimento", headerName: "Data Nascimento", flex: 2 },
-
+    
   ];
 
   return (
@@ -438,11 +442,11 @@ export function Professores() {
                 {...register("nome")}
                 sx={{ width: "100%", background: "#F5F4FF" }}
               />
-
+              
               <ValueMask label="cpf" />
-
+              
               <ValueMask label="data_nascimento" />
-
+              
               <ValueMask label="telefone" />
               <TextField
                 id="outlined-email"
@@ -457,7 +461,7 @@ export function Professores() {
                 required={true}
                 {...register("habilidades")}
                 sx={{ width: "100%", background: "#F5F4FF" }}
-
+                
               />
               <TextField
                 id="outlined-login"
@@ -568,7 +572,7 @@ export function Professores() {
                 sx={{ width: "100%", background: "#F5F4FF" }}
               />
               <ValueMask label="cpfEdit" />
-
+                
               <ValueMask label="data_nascimentoEdit" />
 
               <ValueMask label="telefoneEdit" />

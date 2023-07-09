@@ -1,11 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { SyntheticEvent, useContext, useState } from "react";
 import styled from "styled-components";
 import Sidebar from "../../shared/components/Sidebar/sidebar";
 import Navbarlog from "../../shared/components/NavbarLogada/navbarLogada";
 import DataTable from "../../shared/components/TablePagination/tablePagination";
 import PrimaryButton from "../../shared/components/PrimaryButton/PrimaryButton";
 import {
-
   Box,
   Button,
   Dialog,
@@ -57,7 +56,6 @@ import {
   desmatricularAluna,
   listarAlunasNaTurma,
   listarAlunas,
-
 } from "../../services/turmas";
 
 import CursoSelect from "./cursoSelect";
@@ -65,7 +63,6 @@ import ProfessoresSelect from "./professoresSelect";
 
 import { parse, compareAsc } from "date-fns";
 import { AiFillEdit } from "react-icons/ai";
-
 import { AuthContext } from "../../context/AuthProvider";
 
 const Container = styled.div`
@@ -156,18 +153,11 @@ function validateHorarios(inicio_aula: string, fim_aula: string): boolean {
 export function Turmas(this: any) {
   const [open, setOpen] = useState(false);
   const [turma, setTurma] = useState(Object);
-
-  const [setAlunaSelecionada] = useState(Object);
-  const [id, setId] = useState<GridRowId>(0);
-  const [codigoTurma, setcodigoTurma] = useState<GridRowId>(0);
-  const [] = useState<GridRowId>(0);
-
   const [alunaSelecionada, setAlunaSelecionada] = useState(Object);
   const [idCurso, setIdCurso] = useState('');
   const [loginProfessores, setLoginProfessores] = useState('');
   const [id, setId] = useState<GridRowId>(0);
   const [codigoTurma, setcodigoTurma] = useState<GridRowId>(0);
-
   const [idAluna, setIdAluna] = useState<string>("");
   const [openConfirmation, setOpenConfirmation] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
@@ -183,16 +173,11 @@ export function Turmas(this: any) {
   const [dataTable, setDataTable] = useState(Array<Object>);
   const [dataTableAlunas, setDataTableAlunas] = useState(Array<Object>);
   const [vagas, setVagas] = useState<VagasListarDTO>();
-  const [setVagasAtual] = useState<number>();
+  const [vagasAtual, setVagasAtual] = useState<number>();
   const [matriculas, setMatriculas] = useState(Array);
   const [alunasSelecionadas, setAlunasSelecionadas] = useState<string[]>([]);
-
-
-  const [] = useState<GridRowId>(0);
-
   const [optionsCursos, setOptionsCursos] = useState<CursosListarDTO[]>([]);
   const [optionsProfessores, setOptionsProfessores] = useState<ProfessoresListarDTO[]>([]);
-
   const [selectedTurma, setSelectedTurma] = useState<GridRowId>(0);
 
   const methods = useForm({});
@@ -441,7 +426,7 @@ export function Turmas(this: any) {
   };
 
   const desmatAluna = async (codigoTurma: number, idAluna: string) => {
-    console.log("id da aluna:" + idAluna);
+    console.log("id da aluna:"+idAluna);
     const response = await desmatricularAluna(codigoTurma, idAluna);
     if (response.status === 204) {
       toast.success("Aluna(s) removida(s) da turma com sucesso!");
@@ -488,11 +473,6 @@ export function Turmas(this: any) {
     status: string
   ): Promise<number> => {
     const response = await listarAlunasNaTurma(codigoTurma);
-
-
-    console.log("o status:" + response.status);
-
-
     if (status == "false") {
       if (response.status === 200) {
         const temp: any[] = [];
@@ -502,23 +482,18 @@ export function Turmas(this: any) {
             const response2 = await listaAlunaAtual(value.idAluna);
             const nomeDaAluna = response2.data.nome;
             const cpfDaAluna = response2.data.cpf;
-
             temp.push({
               id: index, // Adiciona um id único com base no índice
               idAluna: value.idAluna,
               nome: nomeDaAluna,
               cpf: cpfDaAluna,
               data_nascimento: response2.data.data_nascimento,
-              login: response2.data.login,
+              login:response2.data.login,
             });
           }
           setAlunasTurma(temp);
           return 0;
         } else {
-
-          return 0;
-        } else {
-
           setAlunasTurma(temp);
           return 0;
         }
@@ -560,8 +535,6 @@ export function Turmas(this: any) {
             senha: value.senha,
           });
         });
-
-
         setDataTableAlunas(temp);
       } else {
         setDataTableAlunas([]);
@@ -574,8 +547,6 @@ export function Turmas(this: any) {
   };
 
   const listarVagas = async (codigoTurmaVagas: number) => {
-    const response = await listarTurma(codigoTurmaVagas);
-    const response2 = await consultaAlunasNaTurma(codigoTurmaVagas, "true");
     const response = await listarTurma(codigoTurmaVagas);
     const response2 = await consultaAlunasNaTurma(codigoTurmaVagas, "true");
     if (response.status === 200) {
@@ -949,7 +920,6 @@ export function Turmas(this: any) {
 
                   const aluna = response as AlunasListarDTO;
                   const alunaLogin = aluna.login;
-
                   setAlunaSelecionada(aluna);
                   return alunaLogin;
                 });

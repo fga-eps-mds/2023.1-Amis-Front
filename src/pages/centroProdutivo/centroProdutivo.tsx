@@ -17,10 +17,16 @@ import {
   TableContainer,
   Table,
   Paper,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
 } from "@mui/material";
+// import { AuthContext, Roles } from "../../../context/AuthProvider";
+import { Roles } from "../../context/AuthProvider";
 import { GridActionsCellItem, GridRowId, DataGrid } from "@mui/x-data-grid";
 import ActionButton from "../../shared/components/ActionButton/ActionButton";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { AiFillEdit } from "react-icons/ai";
 import { BsFillPersonDashFill, BsFillTrashFill } from "react-icons/bs";
@@ -49,6 +55,7 @@ import { CentrosCadastrarDTO } from "./dtos/CentrosCadastrar.dto";
 import { CentrosListarDTO } from "./dtos/CentrosListar.dto";
 import { AuthContext } from "../../context/AuthProvider";
 import ValueMask from "../../shared/components/Masks/ValueMask";
+// import { VagasCentroProdutivoDTO } from "./dtos/VagasCentroProdutivo";
 import { VagasListarCentroDTO } from "./dtos/VagasListarCentro.dto";
 import { CentroInscritosDTO } from "./dtos/CentroInscritosDTO";
 import { FaList } from "react-icons/fa";
@@ -126,11 +133,15 @@ export function CentroProdutivo() {
   const handleCloseConfirmation = () => setOpenConfirmation(false);
   const methods = useForm();
   const [openConfirmation, setOpenConfirmation] = useState(false);
+  // const [selectedCentro, setSelectedCentro] = useState(null);
   const [Centro, setCentro] = useState(Object);
   const [id, setId] = useState<GridRowId>(0);
   const [openEdit, setOpenEdit] = useState(false);
   const [dataTable, setDataTable] = useState(Array<Object>);
   const [vaga, setVagas] = useState<VagasListarCentroDTO[]>([]);
+  // const para alterar vagas disponiveis
+  // const [inscrito, setInscrito] = useState(false);
+  // const [codigoCentro, setcodigoCentro] = useState<GridRowId>(0);
   const auth = useContext(AuthContext);
 
   const [openList, setOpenList] = useState(false);
@@ -181,6 +192,8 @@ export function CentroProdutivo() {
     const response = await gerarRelatorio(dadosAlunas);
 
     if (response.status === 201) {
+      // setOpen(false)
+      // queryClient.invalidateQueries('listar_centro')
       toast.success("Dados do relatorio salvos com sucesso!");
     } else {
       toast.error("Campos inválidos");
@@ -525,9 +538,11 @@ export function CentroProdutivo() {
               (item) => (item as any).id === params.id
             );
             if (selectedRow) {
+              // carregarCentro((selectedRow as any).idCentro);
               carregarAlunasDoCentro((selectedRow as any).idCentro);
               handleOpenExportar();
             }
+            // queryClient.invalidateQueries('listar_alunas_cadastradas');
           }}
         ></ActionButton>,
         <div>

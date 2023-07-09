@@ -19,7 +19,7 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import { GridRowId } from "@mui/x-data-grid";
+import { GridActionsCellItem, GridRowId } from "@mui/x-data-grid";
 import { FormProvider, useForm } from "react-hook-form";
 import { AiFillEdit, AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
@@ -151,7 +151,7 @@ export function Assistentes() {
     if (!senhaValida) {
       return;
     }
-
+    
     assistente.cpf = removeSpecialCharacters(assistente.cpf);
     assistente.telefone = removeSpecialCharacters(assistente.telefone);
     assistente.dNascimento = transformDate(assistente.dNascimento);
@@ -180,7 +180,7 @@ export function Assistentes() {
     const temp: AssistentesListarDTO[] = [];
     if (response.data && Array.isArray(response.data)) {
       response.data.forEach((value: AssistentesListarDTO, index: number) => {
-
+        
         const [year, month, day] = value.dNascimento.split("-");
         const dataFormatada = `${day}/${month}/${year}`;
 
@@ -194,7 +194,7 @@ export function Assistentes() {
           login: value.login,
           observacao: value.observacao,
           administrador: value.administrador,
-          senha: value.senha,
+          senha:value.senha,
         });
       });
     }
@@ -233,7 +233,7 @@ export function Assistentes() {
     setValue("data_nascimentoEdit", assistente.dNascimento);
     setValue("telefoneEdit", assistente.telefone);
     setValue("emailEdit", assistente.email);
-    setValue("observacaoEdit", assistente.observacao);
+    setValue("observacaoEdit",assistente.observacao);
     setOpenEdit(true);
   };
 
@@ -292,8 +292,8 @@ export function Assistentes() {
       email: data.emailEdit,
       observacao: data.observacaoEdit,
       login: assistente.login,
-      administrador: assistente.administrador,
-      senha: assistente.senha,
+      administrador:assistente.administrador,
+      senha:assistente.senha,
     };
 
     const response = await editarAssistente(assistente.login, assistenteEditada);
@@ -512,38 +512,38 @@ export function Assistentes() {
       </Modal>
       <Modal open={openEdit} onClose={() => setOpenEdit(false)}>
         <Box sx={style}>
-          <FormProvider
+        <FormProvider
             {...methods}
           >
-            <FormText>Altere os dados cadastrais.</FormText>
-            <Form onSubmit={handleSubmit(editAssistentes)}>
-              <TextField
-                id="outlined-nome"
-                label="Nome Completo"
-                required={true}
-                {...register("nomeEdit")}
-                sx={{ width: "100%", background: "#F5F4FF" }}
-              />
-              <ValueMask label="cpfEdit" />
-              <ValueMask label="data_nascimentoEdit" />
-              <ValueMask label="telefoneEdit" />
-              <TextField
-                id="outlined-email"
-                label="E-mail"
-                inputProps={{ maxLength: 11 }}
-                {...register("emailEdit")}
-                sx={{ width: "100%", background: "#F5F4FF" }}
-              />
-              <TextField
-                id="outlined-observacao"
-                label="Observação"
-                required={false}
-                {...register("observacaoEdit")}
-                sx={{ width: "100%", background: "#F5F4FF" }}
-              />
+          <FormText>Altere os dados cadastrais.</FormText>
+          <Form onSubmit={handleSubmit(editAssistentes)}>
+            <TextField
+              id="outlined-nome"
+              label="Nome Completo"
+              required={true}
+              {...register("nomeEdit")}
+              sx={{ width: "100%", background: "#F5F4FF" }}
+            />
+            <ValueMask label="cpfEdit" />
+            <ValueMask label="data_nascimentoEdit" />
+            <ValueMask label="telefoneEdit" />
+            <TextField
+              id="outlined-email"
+              label="E-mail"
+              inputProps={{ maxLength: 11 }}
+              {...register("emailEdit")}
+              sx={{ width: "100%", background: "#F5F4FF" }}
+            />
+            <TextField
+              id="outlined-observacao"
+              label="Observação"
+              required={false}
+              {...register("observacaoEdit")}
+              sx={{ width: "100%", background: "#F5F4FF" }}
+            />
 
-              <PrimaryButton text={"Editar"} />
-            </Form>
+            <PrimaryButton text={"Editar"} />
+          </Form>
           </FormProvider>
         </Box>
       </Modal>
