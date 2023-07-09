@@ -550,7 +550,7 @@ export function Professores() {
                     variant="body2"
                     color="error"
                     sx={{ mt: 0.4, mb: -3 }}
-                  >Senha não corresponde!
+                  >SAs senhas não coincidem!
                   </Typography>
                 )}
               </FormControl>

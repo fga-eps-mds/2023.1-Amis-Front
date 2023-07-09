@@ -494,7 +494,7 @@ export function Assistentes() {
                     color="error"
                     sx={{ mt: 1, mb: -3.5 }}
                   >
-                    Senha não corresponde!
+                    SAs senhas não coincidem!
                   </Typography>
                 )}
               </FormControl>
