@@ -67,24 +67,27 @@ import {
       fireEvent.click(cadastrarButton);
       
       // Simula o preenchimento dos campos de cadastro
-      const cursoInput = screen.getByLabelText("Curso *");
+      const cursoInput = screen.getByTestId("curso-select")
       const nomeInput = screen.getByLabelText("Nome da Turma *");
       const vagasInput = screen.getByLabelText("Número de vagas *");
       const dataInicioInput = screen.getByLabelText("Data de Início *");
       const dataFimInput = screen.getByLabelText("Data de Término *");
       const horarioInicioInput = screen.getByLabelText("Horário de Início *");
       const horarioFimInput = screen.getByLabelText("Horário de Término *");
-      const professorInput = screen.getByLabelText("Professor *");
+      const professorInput = screen.getByTestId("professor-select");
       const descricaoInput = screen.getByLabelText("Descrição");
       
-      fireEvent.change(cursoInput, { target: { value: 14 } });
+
+      fireEvent.click(cursoInput);
+      //fireEvent.change(cursoInput, { target: { value: 1 } });
       fireEvent.change(nomeInput, { target: { value: 'Turma A' } });
       fireEvent.change(vagasInput, { target: { value: 50 } });
       fireEvent.change(dataInicioInput, { target: { value: "01/01/2024" } });
       fireEvent.change(dataFimInput, { target: { value: "01/02/2024" } });
       fireEvent.change(horarioInicioInput, { target: { value: "14:00" } });
       fireEvent.change(horarioFimInput, { target: { value: "18:00" } });
-      fireEvent.change(professorInput, { target: { value: "mario.teacher" } });
+      fireEvent.click(professorInput);
+      //fireEvent.change(professorInput, { target: { value: "mario.teacher" } });
       fireEvent.change(descricaoInput, { target: { value: 'Turma de confeitaria' } });
       
       const submitButton = screen.getByRole('button', { name: 'Cadastrar' });
