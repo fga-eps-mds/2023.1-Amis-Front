@@ -47,7 +47,7 @@ const CursoSelect: React.FC<CursoSelectProps> = (props) => {
   };
 
   return (
-    <div style={styles.container}>
+    <div style={styles.container} data-testid="curso-select">
       <select value={props?.selectedOption} style={styles.select} onChange={handleCursoChange}>
         <option>Selecione um curso</option> {/* Adicionando a primeira opção */}
         {props?.cursos?.map((curso: CursosListarDTO) => (

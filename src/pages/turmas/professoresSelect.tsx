@@ -42,12 +42,12 @@ interface ProfessoresSelectProps {
 
 const ProfessoresSelect: React.FC<ProfessoresSelectProps> = (props) => {
   const handleProfessoresChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedProfessoresLogin = event.target.value === "" ? null : parseInt(event.target.value);
+    const selectedProfessoresLogin = event.target.value === "" ? null : event.target.value;
     props.onSelectProfessores(selectedProfessoresLogin);
   };
 
   return (
-    <div style={styles.container}>
+    <div style={styles.container} data-testid="professor-select">
       <select value={props?.selectedOption} style={styles.select} onChange={handleProfessoresChange}>
         <option>Selecione um professor</option> {/* Adicionando a primeira opção */}
         {props?.professores?.map((professor: ProfessoresListarDTO) => (

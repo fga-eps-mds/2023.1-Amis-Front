@@ -199,8 +199,8 @@ export function Turmas(this: any) {
   const registerTurmas = async (data: any) => {
     const turma = {
       codigo: data.codigo,
-      fk_curso: data.fk_curso,
-      fk_professor: data.fk_professor,
+      fk_curso: parseInt(idCurso),
+      fk_professor: loginProfessores,
       nome_turma: data.nome_turma,
       capacidade_turma: data.capacidade_turma,
       inicio_aula: data.inicio_aula,
@@ -552,7 +552,6 @@ export function Turmas(this: any) {
       setVagas(response.data as VagasListarDTO);
     }
   };
-  console.log("ROLEEEEEEE = " + role)
   const columnsTable = [
     {
       field: "actions",
@@ -719,6 +718,7 @@ export function Turmas(this: any) {
               <ValueMask label="fim_aula" />
 
               <ProfessoresSelect
+                data-testid="professor-select"
                 professores={optionsProfessores} 
                 onSelectProfessores={handleSelectProfessores}
                 selectedOption={loginProfessores}
