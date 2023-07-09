@@ -4,30 +4,22 @@ import styled from "styled-components";
 import { AiOutlineHome, AiOutlineAudit } from "react-icons/ai";
 import {
   BiBook,
-  BiBookAdd,
-  BiBookAlt,
-  BiBookBookmark,
   BiBookHeart,
-  BiBookOpen,
-  BiBookmarkAltPlus,
   BiLogOut,
   BiUser,
-  BiBuilding,
+
 } from "react-icons/bi";
 import { MdSchool } from "react-icons/md";
-import { FiSettings } from "react-icons/fi";
+
 import {
   FaChalkboardTeacher,
   FaUserShield,
   FaIndustry,
   FaHeart,
 } from "react-icons/fa";
-import { HiOutlineDocumentReport } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
 import { grey } from "@mui/material/colors";
 import { AuthContext, Roles } from "../../../context/AuthProvider";
-import { BsFillBookmarkStarFill } from "react-icons/bs";
-import { getUserLocalStorage } from "../../../services/auth";
 
 const Container = styled.div`
   width: 200px;

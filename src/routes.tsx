@@ -19,7 +19,7 @@ import { Backdrop, CircularProgress } from "@mui/material";
 import { Curso } from "./pages/curso/cursos";
 import { Supervisor } from "./pages/supervisor/supervisor";
 import { CentroProdutivo } from "./pages/centroProdutivo/centroProdutivo";
-";
+
 
 interface Props {
   component: React.ComponentType;
