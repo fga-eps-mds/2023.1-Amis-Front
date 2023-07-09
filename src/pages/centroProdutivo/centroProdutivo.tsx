@@ -283,10 +283,10 @@ export function CentroProdutivo() {
         centroEditado
       );
       if (response.status === 201) {
-        toast.success("Centro desagendado com sucesso!");
+        toast.success("O centro não está mais disponível para inscrições!");
         await queryClient.invalidateQueries("listar_centro");
       } else {
-        toast.warning("Não foi possivel desagendar esse centro");
+        toast.warning("Não foi possivel desabilitar esse centro");
       }
     }
     if (centroProd.vagasRestantes > 0 && centroProd.status === 2) {
@@ -304,10 +304,10 @@ export function CentroProdutivo() {
         centroEditado
       );
       if (response.status === 201) {
-        toast.success("Centro agendado com sucesso!");
+        toast.success("O centro está disponível para novas inscrições!");
         await queryClient.invalidateQueries("listar_centro");
       } else {
-        toast.warning("Não foi possivel agendar esse Centro");
+        toast.warning("Não foi possivel habilitar esse centro");
       }
     }
   };
