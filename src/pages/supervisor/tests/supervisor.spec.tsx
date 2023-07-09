@@ -71,7 +71,7 @@ describe("Supervisor", () => {
     const emailInput = screen.getByLabelText("Email *");
     const loginInput = screen.getByLabelText("Login *");
     const senhaInput = screen.getByLabelText("Senha *");
-    const senhaConfirmadaInput = screen.getByLabelText("Confirmar Senha *");
+    const senhaConfirmadaInput = screen.getByLabelText("Confirmar senha *");
     const dataNascimentoInput = screen.getByLabelText("Data de Nascimento *");
     const telefoneInput = screen.getByLabelText("Telefone *");
 
@@ -218,7 +218,7 @@ describe("Supervisor", () => {
     const emailInput = screen.getByLabelText("Email *");
     const loginInput = screen.getByLabelText("Login *");
     const senhaInput = screen.getByLabelText("Senha *");
-    const senhaConfirmadaInput = screen.getByLabelText("Confirmar Senha *");
+    const senhaConfirmadaInput = screen.getByLabelText("Confirmar senha *");
     const dataNascimentoInput = screen.getByLabelText("Data de Nascimento *");
     const telefoneInput = screen.getByLabelText("Telefone *");
 
@@ -246,9 +246,9 @@ describe("Supervisor", () => {
       fireEvent.click(submitButton);
     });
 
-    toast.error("As senhas não coincidem");
+    toast.error("As senhas não coincidem!");
 
     // Verifique se o spy foi chamado corretamente
-    expect(toastErrorSpy).toHaveBeenCalledWith("As senhas não coincidem");
+    expect(toastErrorSpy).toHaveBeenCalledWith("As senhas não coincidem!");
   });
 });
