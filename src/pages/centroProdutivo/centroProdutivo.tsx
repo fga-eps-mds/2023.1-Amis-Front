@@ -220,8 +220,6 @@ export function CentroProdutivo() {
 
     const temp: CentrosListarDTO[] = [];
     response.data.forEach((value: CentrosListarDTO, index: number) => {
-      const [year, month, day] = value.data_agendada.split("-");
-      value.data_agendada = `${day}/${month}/${year}`;
       temp.push({
         id: index,
         idCentro: value.id,
@@ -231,6 +229,10 @@ export function CentroProdutivo() {
         turno: value.turno,
         vagasRestantes: value.vagasRestantes,
       });
+      vagasAtuais[index] = {
+        vagasTotais: value.vagasRestantes,
+        vagasDisponiveis: value.vagasRestantes,
+      };
       vagasAtuais[index] = {
         vagasTotais: value.vagasRestantes,
         vagasDisponiveis: value.vagasRestantes,
@@ -262,7 +264,6 @@ export function CentroProdutivo() {
 
   const alteraAgendamento = async (centroProd: CentrosListarDTO) => {
     if (centroProd.vagasRestantes > 0 && centroProd.status === 1) {
-      centroProd.data_agendada = transformDate(centroProd.data_agendada);
       const centroEditado = {
         id: centroProd.idCentro,
         data_agendada: centroProd.data_agendada,
@@ -277,14 +278,13 @@ export function CentroProdutivo() {
         centroEditado
       );
       if (response.status === 201) {
-        toast.success("Centro desagendado com sucesso!");
+        toast.success("Centro Desagendado com sucesso!");
         await queryClient.invalidateQueries("listar_centro");
       } else {
-        toast.warning("Não foi possivel desagendar esse centro");
+        toast.warning("Não foi possivel Desagendar esse Centro");
       }
     }
     if (centroProd.vagasRestantes > 0 && centroProd.status === 2) {
-      centroProd.data_agendada = transformDate(centroProd.data_agendada);
       const centroEditado = {
         id: centroProd.idCentro,
         data_agendada: centroProd.data_agendada,
@@ -299,10 +299,10 @@ export function CentroProdutivo() {
         centroEditado
       );
       if (response.status === 201) {
-        toast.success("Centro agendado com sucesso!");
+        toast.success("Centro Agendado com sucesso!");
         await queryClient.invalidateQueries("listar_centro");
       } else {
-        toast.warning("Não foi possivel agendar esse Centro");
+        toast.warning("Não foi possivel Agendar esse Centro");
       }
     }
   };
@@ -356,7 +356,6 @@ export function CentroProdutivo() {
   };
 
   const editCentro = async (data: any) => {
-    data.data_agendadaEdit = transformDate(data.data_agendadaEdit);
     const centroEditado = {
       id: Centro.idCentro,
       data_agendada: data.data_agendadaEdit,
@@ -511,7 +510,7 @@ export function CentroProdutivo() {
         </div>,
       ],
     },
-    role === "supervisor" || role === "socialWorker" && {
+    role === "supervisor" && {
       field: "Agendar",
       headerName: "Agendar",
       type: "actions",
@@ -533,7 +532,8 @@ export function CentroProdutivo() {
         <div>
           {vaga[Number(params.id)]?.vagasDisponiveis &&
           vaga[Number(params.id)].vagasDisponiveis >= 1 &&
-          params.row.status === 1 ? (
+          params.row.status === 1 &&
+          role === "supervisor" ? (
             <ActionButton
               text="Bloquear"
               handleClick={() => {

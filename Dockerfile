@@ -1,6 +1,6 @@
 FROM node:19
 WORKDIR /app
 COPY . .
-RUN npm install --ignore-scripts
-EXPOSE 5173
+RUN npm install
 CMD ["npm", "run", "dev"]
+
