@@ -682,13 +682,6 @@ export function Turmas(this: any) {
               Preencha corretamente os dados cadastrais.
             </FormText>
             <Form onSubmit={handleSubmit(registerTurmas)}>
-              <TextField
-                id="outlined-codigo"
-                required={true}
-                label="Código"
-                {...register("codigo")}
-                sx={{ width: "100%", background: "#F5F4FF" }}
-              />
 
                <CursoSelect 
                 cursos={optionsCursos} 

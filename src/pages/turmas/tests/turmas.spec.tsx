@@ -67,7 +67,6 @@ import {
       fireEvent.click(cadastrarButton);
       
       // Simula o preenchimento dos campos de cadastro
-      const codigoInput = screen.getByLabelText("Código *");
       const cursoInput = screen.getByTestId("curso-select")
       const nomeInput = screen.getByLabelText("Nome da Turma *");
       const vagasInput = screen.getByLabelText("Número de vagas *");
@@ -78,7 +77,7 @@ import {
       const professorInput = screen.getByTestId("professor-select");
       const descricaoInput = screen.getByLabelText("Descrição");
       
-      fireEvent.change(codigoInput, { target: { value: 15 } });
+
       fireEvent.click(cursoInput);
       //fireEvent.change(cursoInput, { target: { value: 1 } });
       fireEvent.change(nomeInput, { target: { value: 'Turma A' } });
