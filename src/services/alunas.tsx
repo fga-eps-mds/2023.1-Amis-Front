@@ -11,24 +11,24 @@ export const cadastraAluna = async (payload: AlunasCadastrarDTO) => {
 };
 
 export const listarAlunas = async () => {
-  
+
   return await apiUser
     .get("/student/")
     .then((response) => response)
     .catch((error) => error);
 };
 
-export const listaAlunaAtual = async (alunaId:string) => {
-  
+export const listaAlunaAtual = async (alunaId: string) => {
+
   return await apiUser
-    .get("/student/"+alunaId)
+    .get("/student/" + alunaId)
     .then((response) => response)
     .catch((error) => error);
 };
 
 
 export const editarAluna = async (alunaId: string, aluna: Object) => {
-  //console.log("Aluna id vai serrr:"+alunaId);
+
   try {
     const response = await apiUser.put("/student/" + alunaId, aluna);
     return response;
