@@ -275,6 +275,7 @@ export function CentroProdutivo() {
 
   const alteraAgendamento = async (centroProd: CentrosListarDTO) => {
     if (centroProd.vagasRestantes > 0 && centroProd.status === 1) {
+      centroProd.data_agendada = transformDate(centroProd.data_agendada);
       const centroEditado = {
         id: centroProd.idCentro,
         data_agendada: centroProd.data_agendada,
@@ -289,13 +290,14 @@ export function CentroProdutivo() {
         centroEditado
       );
       if (response.status === 201) {
-        toast.success("Centro Desagendado com sucesso!");
+        toast.success("Centro desagendado com sucesso!");
         await queryClient.invalidateQueries("listar_centro");
       } else {
-        toast.warning("Não foi possivel Desagendar esse Centro");
+        toast.warning("Não foi possivel desagendar esse centro");
       }
     }
     if (centroProd.vagasRestantes > 0 && centroProd.status === 2) {
+      centroProd.data_agendada = transformDate(centroProd.data_agendada);
       const centroEditado = {
         id: centroProd.idCentro,
         data_agendada: centroProd.data_agendada,
@@ -310,10 +312,10 @@ export function CentroProdutivo() {
         centroEditado
       );
       if (response.status === 201) {
-        toast.success("Centro Agendado com sucesso!");
+        toast.success("Centro agendado com sucesso!");
         await queryClient.invalidateQueries("listar_centro");
       } else {
-        toast.warning("Não foi possivel Agendar esse Centro");
+        toast.warning("Não foi possivel agendar esse Centro");
       }
     }
   };
@@ -522,7 +524,7 @@ export function CentroProdutivo() {
         </div>,
       ],
     },
-    role === "supervisor" && {
+    role === "supervisor" || role === "socialWorker" && {
       field: "Agendar",
       headerName: "Agendar",
       type: "actions",
@@ -546,8 +548,7 @@ export function CentroProdutivo() {
         <div>
           {vaga[Number(params.id)]?.vagasDisponiveis &&
           vaga[Number(params.id)].vagasDisponiveis >= 1 &&
-          params.row.status === 1 &&
-          role === "supervisor" ? (
+          params.row.status === 1 ? (
             <ActionButton
               text="Bloquear"
               handleClick={() => {

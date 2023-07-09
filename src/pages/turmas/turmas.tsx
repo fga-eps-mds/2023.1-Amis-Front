@@ -435,8 +435,8 @@ export function Turmas(this: any) {
       toast.error("Erro na remoção da(s) aluna(s) da turma.");
     }
     handleDesmatCloseConfirmation();
-    useQuery("consultaAlunasNaTurma", async () => {
-    });
+    queryClient.invalidateQueries("consultaAlunasNaTurma");
+    //useQuery("consultaAlunasNaTurma", async () => {});
   };
 
   const columnsTableAlunas = [
