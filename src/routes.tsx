@@ -9,17 +9,17 @@ import { Alunas } from "./pages/alunas/alunas";
 import { Instrucao } from "./pages/cadastroInstrucao/instrucao";
 import { Home } from "./pages/home/home";
 import { Login } from "./pages/login/login";
-import { Receitas } from "./pages/receitas/receitas";
+
 import { Assistentes } from "./pages/assistentes/assistentes";
 import { Turmas } from "./pages/turmas/turmas";
 import { Professores } from "./pages/professores/professores";
 import { AuthContext } from "./context/AuthProvider";
 import { Backdrop, CircularProgress } from "@mui/material";
-import { ReceitasInstrucao } from "./pages/receitas/receitasInstrucao";
+
 import { Curso } from "./pages/curso/cursos";
 import { Supervisor } from "./pages/supervisor/supervisor";
 import { CentroProdutivo } from "./pages/centroProdutivo/centroProdutivo";
-import VisualizarInstrucao from "./pages/cadastroInstrucao/visualizarInstrucao";
+";
 
 interface Props {
   component: React.ComponentType;
@@ -38,7 +38,7 @@ export const PrivateRoute: React.FC<Props> = ({
       </Backdrop>
     );
   }
-  
+
   return auth.isAuthenticated ? <RouteComponent /> : <Navigate to="/" />;
 };
 

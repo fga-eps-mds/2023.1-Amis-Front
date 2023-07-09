@@ -146,10 +146,10 @@ function validateHorarios(inicio_aula: string, fim_aula: string): boolean {
 export function Turmas(this: any) {
   const [open, setOpen] = useState(false);
   const [turma, setTurma] = useState(Object);
-  const [alunaSelecionada, setAlunaSelecionada] = useState(Object);
+  const [setAlunaSelecionada] = useState(Object);
   const [id, setId] = useState<GridRowId>(0);
   const [codigoTurma, setcodigoTurma] = useState<GridRowId>(0);
-  const [codigoRegister, setCodigoRegister] = useState<GridRowId>(0);
+  const [] = useState<GridRowId>(0);
   const [idAluna, setIdAluna] = useState<string>("");
   const [openConfirmation, setOpenConfirmation] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
@@ -165,11 +165,11 @@ export function Turmas(this: any) {
   const [dataTable, setDataTable] = useState(Array<Object>);
   const [dataTableAlunas, setDataTableAlunas] = useState(Array<Object>);
   const [vagas, setVagas] = useState<VagasListarDTO>();
-  const [vagasAtual, setVagasAtual] = useState<number>();
+  const [setVagasAtual] = useState<number>();
   const [matriculas, setMatriculas] = useState(Array);
   const [alunasSelecionadas, setAlunasSelecionadas] = useState<string[]>([]);
 
-  const [codigo, setCodigo] = useState<GridRowId>(0);
+  const [] = useState<GridRowId>(0);
   const [selectedTurma, setSelectedTurma] = useState<GridRowId>(0);
 
   const methods = useForm({});
