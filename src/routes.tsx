@@ -19,7 +19,7 @@ import { ReceitasInstrucao } from "./pages/receitas/receitasInstrucao";
 import { Curso } from "./pages/curso/cursos";
 import { Supervisor } from "./pages/supervisor/supervisor";
 import { CentroProdutivo } from "./pages/centroProdutivo/centroProdutivo";
-
+import VisualizarInstrucao from "./pages/cadastroInstrucao/visualizarInstrucao";
 
 interface Props {
   component: React.ComponentType;
