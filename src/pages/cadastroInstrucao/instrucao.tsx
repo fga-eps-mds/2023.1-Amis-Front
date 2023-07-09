@@ -1,5 +1,4 @@
 import { useState, useContext } from "react";
-import { useForm } from 'react-hook-form';
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import { listarCurso } from "../../services/cursos";
@@ -47,7 +46,7 @@ export function Instrucao(props: any) {
 
   const [selected, setSelected] = useState(String);
   const [open, setOpen] = useState(false);
-  const [instrucao,setInstrucao] = useState(Object);
+  const [instrucao, setInstrucao] = useState(Object);
   const [idCurso, setIdCurso] = useState('');
   const [idCursoEdit, setIdCursoEdit] = useState('');
   const handleOpen = () => setOpen(true);
@@ -63,7 +62,7 @@ export function Instrucao(props: any) {
       try {
         const response = await listarInstrucoes();
         const data = await response.data;
-  
+
         setItems(data);
       } catch (error) {
         console.error('Erro ao buscar as Intruções:', error);
@@ -108,7 +107,7 @@ export function Instrucao(props: any) {
       setInstrucao(instrucao);
       setValue("nome", '');
       setValue("idCurso", '');
-      setValue("descricao",'');
+      setValue("descricao", '');
       setIdCurso('');
     } else {
       toast.error("Erro ao cadastrar a instrucao.");
@@ -127,35 +126,35 @@ export function Instrucao(props: any) {
     setInstrucao(instrucao);
     setValue("nomeEdit", instrucao.nome);
     setValue("idCursoEdit", instrucao.idCurso);
-    setValue("descricaoEdit",instrucao.descricao);
+    setValue("descricaoEdit", instrucao.descricao);
     setIdCursoEdit(instrucao.idCurso);
     setOpenEdit(true);
   };
 
 
   const editInstrucoes = async (data: any): Promise<void> => {
-    
+
     const instrucaoEditada = {
       nome: data.nomeEdit,
       idCurso: idCursoEdit,
       descricao: data.descricaoEdit,
       dataCadastro: instrucao.dataCadastro,
       id: instrucao.id
-      
+
     } as InstrucoesCadastrarDTO;
     const response = await editarInstrucao(instrucao.id, instrucaoEditada);
-      if (response.status === 200 || response.status === 204 || response.status === 201) {
-        toast.success("Instrução atualizada com sucesso!");
-      } else {
-        toast.error("Erro na atualização da instrução.");
-      }
-      setOpenEdit(false);
-      await queryClient.invalidateQueries("listar_instrucoes");
+    if (response.status === 200 || response.status === 204 || response.status === 201) {
+      toast.success("Instrução atualizada com sucesso!");
+    } else {
+      toast.error("Erro na atualização da instrução.");
+    }
+    setOpenEdit(false);
+    await queryClient.invalidateQueries("listar_instrucoes");
   };
 
   const handleSelectChange = async (event: any) => {
     setSelected(event)
-    if(event == null) 
+    if (event == null)
       await queryClient.invalidateQueries("listar_instrucoes");
     else {
       const response = await listarInstrucoesPorCurso(event);
@@ -169,35 +168,35 @@ export function Instrucao(props: any) {
     }
   };
 
-  const handleSelectCurso= async (event: any) => {
+  const handleSelectCurso = async (event: any) => {
     setIdCurso(event);
- 
+
   };
-  const handleSelectCursoEdit= async (event: any) => {
+  const handleSelectCursoEdit = async (event: any) => {
     setIdCursoEdit(event);
- 
+
   };
 
   return (
     <Container>
       {props.home === false &&
-      <Sidebar />
+        <Sidebar />
       }
       <Content>
-      {props.home === true && (
-        <Navbar hideButton={true}/>
-      )}
+        {props.home === true && (
+          <Navbar hideButton={true} />
+        )}
         <Navbarlog text={"Instruções"} />
         <DivButtons>
-          <CursoSelect 
-            cursos={options} 
+          <CursoSelect
+            cursos={options}
             onSelectCurso={handleSelectChange}
             selectedOption={selected}
           />
           {role !== "student" && props.home == false ? (
             <PrimaryButton text={"Cadastrar"} handleClick={handleOpen} />
           ) : (
-              <></>
+            <></>
           )}
         </DivButtons>
         <VisualizarInstrucao
@@ -221,8 +220,8 @@ export function Instrucao(props: any) {
                 {...register("nome")}
                 sx={{ width: "100%", background: "#F5F4FF" }}
               />
-              <CursoSelect 
-                cursos={options} 
+              <CursoSelect
+                cursos={options}
                 onSelectCurso={handleSelectCurso}
                 selectedOption={idCurso}
               />
@@ -230,8 +229,8 @@ export function Instrucao(props: any) {
                 id="outlined-observacao"
                 label="Instrução"
                 required={true}
-                multiline 
-                rows={10} 
+                multiline
+                rows={10}
                 {...register("descricao")}
                 sx={{ width: "100%", background: "#F5F4FF" }}
               />
@@ -254,8 +253,8 @@ export function Instrucao(props: any) {
                 {...register("nomeEdit")}
                 sx={{ width: "100%", background: "#F5F4FF" }}
               />
-              <CursoSelect 
-                cursos={options} 
+              <CursoSelect
+                cursos={options}
                 onSelectCurso={handleSelectCursoEdit}
                 selectedOption={idCursoEdit}
               />
@@ -263,8 +262,8 @@ export function Instrucao(props: any) {
                 id="outlined-nome"
                 label="Observção"
                 required={true}
-                multiline 
-                rows={10} 
+                multiline
+                rows={10}
                 {...register("descricaoEdit")}
                 sx={{ width: "100%", background: "#F5F4FF" }}
               />
