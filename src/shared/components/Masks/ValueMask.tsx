@@ -9,7 +9,7 @@ interface Props {
 
 interface Value {
   cpf: string;
-  data_agendada: string;
+  data_agendada : string;
   data_agendadaEdit: string;
   data_nascimento: string;
   telefone: string;
@@ -27,8 +27,8 @@ interface Value {
 const ValueMask: React.FC<Props> = ({ label, registeredName }) => {
   const value: Value = {
     cpf: "CPF",
-    data_agendada: "Data de Alocação",
-    data_agendadaEdit: "Data de Alocação",
+    data_agendada : "Data de Alocação",
+    data_agendadaEdit : "Data de Alocação",
     data_nascimento: "Data de Nascimento",
     telefone: "Telefone",
     cep: "CEP",
@@ -57,8 +57,9 @@ const ValueMask: React.FC<Props> = ({ label, registeredName }) => {
       const parts = numericValue.match(cpfRegex);
 
       if (parts) {
-        formattedValue = `${parts[1]}${parts[2] ? `.${parts[2]}` : ""}${parts[3] ? `.${parts[3]}` : ""
-          }${parts[4] ? `-${parts[4]}` : ""}`;
+        formattedValue = `${parts[1]}${parts[2] ? `.${parts[2]}` : ""}${
+          parts[3] ? `.${parts[3]}` : ""
+        }${parts[4] ? `-${parts[4]}` : ""}`;
       }
       return formattedValue;
     }
@@ -88,9 +89,10 @@ const ValueMask: React.FC<Props> = ({ label, registeredName }) => {
       const parts = numericValue.match(dataNascimentoRegex);
 
       if (parts) {
-
-        formattedValue = `${parts[1]}${parts[2] ? `/${parts[2]}` : ""}${parts[3] ? `/${parts[3]}` : ""
-          }`;
+        // formattedValue = `(${parts[0]})`;
+        formattedValue = `${parts[1]}${parts[2] ? `/${parts[2]}` : ""}${
+          parts[3] ? `/${parts[3]}` : ""
+        }`;
       }
       return formattedValue;
     }

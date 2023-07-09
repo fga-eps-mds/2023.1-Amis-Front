@@ -5,18 +5,19 @@ import { AiFillEdit } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
 import { excluirInstrucao } from "../../services/instrucoes";
 import { toast } from "react-toastify";
+import { listarCursoPorId } from '../../services/cursos';
 import { queryClient } from "../../services/queryClient";
 import { AuthContext } from "../../context/AuthProvider";
 
 interface Styles {
-  flexContainer: React.CSSProperties;
-  item: React.CSSProperties;
-  modal: React.CSSProperties;
-  modalContent: React.CSSProperties;
-  button: React.CSSProperties;
-  p: React.CSSProperties;
+    flexContainer: React.CSSProperties;
+    item: React.CSSProperties;
+    modal: React.CSSProperties;
+    modalContent: React.CSSProperties;
+    button: React.CSSProperties;
+    p: React.CSSProperties;
 }
-
+  
 const styles: Styles = {
   flexContainer: {
     margin: '20px',
@@ -79,46 +80,55 @@ const styles: Styles = {
 
 
 export function Item(props: any) {
-  const [expanded, setExpanded] = useState(false);
-  const [curso, setCurso] = useState(Object);
-  const handleCloseConfirmation = () => setOpenConfirmation(false);
-  const [openConfirmation, setOpenConfirmation] = useState(false);
-  const handleOpenConfirmation = () => setOpenConfirmation(true);
-  const { role } = useContext(AuthContext);
+    const [expanded, setExpanded] = useState(false);
+    const [curso, setCurso] = useState(Object);
+    const handleCloseConfirmation = () => setOpenConfirmation(false);
+    const [openConfirmation, setOpenConfirmation] = useState(false);
+    const handleOpenConfirmation = () => setOpenConfirmation(true);
+    const { role } = useContext(AuthContext);
 
-  const handleClick = () => {
-    setExpanded(!expanded);
-  };
-
-  const handleClickModal = (id: any) => {
-    props.openModal(id);
-  }
-
-  const deleteInstrucao = async (): Promise<void> => {
-    const idItem = props.id
-    if (idItem) {
-      const response = await excluirInstrucao(idItem); // Passa o login para a função apagaInstrucao
-      if (response.status === 204) {
-        toast.success("Instrucao excluída com sucesso!");
-      } else {
-        toast.error("Erro ao excluir a instucao.");
-      }
-
-      handleCloseConfirmation();
-      await queryClient.invalidateQueries("listar_instrucoes");
+    const handleClick = () => {
+      setExpanded(!expanded);
+    };
+    
+    const handleClickModal = (id: any) => {
+      props.openModal(id);
     }
-  };
 
-  return (
-    <div style={styles.item}>
-      <div onClick={handleClick}>
-        <div style={{ fontWeight: 'bold', justifyContent: 'space-between', display: 'flex', paddingBottom: '20px' }}>
-          <h3>{props.titulo}</h3>
-          <h3 style={{ color: 'red' }}>{props.subtitulo}</h3>
+    const deleteInstrucao = async (): Promise<void> => {
+      const idItem = props.id
+      if (idItem) {
+        const response = await excluirInstrucao(idItem); // Passa o login para a função apagaInstrucao
+        if (response.status === 204) {
+          toast.success("Instrucao excluída com sucesso!");
+        } else {
+          toast.error("Erro ao excluir a instucao.");
+        }
+  
+        handleCloseConfirmation();
+        await queryClient.invalidateQueries("listar_instrucoes");
+      }
+    };
+
+    // const getCurso = async (): Promise<void> =>  {
+    //   const response = await listarCursoPorId(props.subtitulo);
+    //   console.log(response)
+    //   setCurso(response.data);
+    // }
+
+    // getCurso()
+    // console.log(curso)
+
+    return (
+      <div style={styles.item}>
+        <div onClick={handleClick}>
+          <div style={{ fontWeight: 'bold', justifyContent: 'space-between', display: 'flex', paddingBottom: '20px' }}>
+            <h3>{props.titulo}</h3>
+            <h3 style={{ color: 'red' }}>{props.subtitulo}</h3>
+          </div>
+          <p style={styles.p}>{props.descricao}</p>
         </div>
-        <p style={styles.p}>{props.descricao}</p>
-      </div>
-      {role !== "student" && props.home == false && (
+          {role !== "student" && props.home == false && (
         <div>
           <IconButton
             id="meu-grid-actions-cell-item"
@@ -126,7 +136,7 @@ export function Item(props: any) {
             onClick={async () => {
               handleClickModal(props.id)
             }}
-          >
+            >
             <AiFillEdit size={20} />
             <Typography variant="body2"></Typography>
           </IconButton>
@@ -135,29 +145,29 @@ export function Item(props: any) {
             onClick={() => {
               handleOpenConfirmation();
             }}
-          >
+            >
             <BsFillTrashFill size={18} />
             <Typography variant="body2"></Typography>
           </IconButton>
         </div>
-      )}
-      <Dialog
-        open={openConfirmation}
-        onClose={setOpenConfirmation}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Você tem certeza que deseja excluir?"}
-        </DialogTitle>
-        <DialogActions>
-          <Button onClick={handleCloseConfirmation}>Não</Button>
-          <Button onClick={deleteInstrucao} autoFocus>
-            Sim
-          </Button>
-        </DialogActions>
-      </Dialog>
-      {expanded && (
+          )}
+        <Dialog
+          open={openConfirmation}
+          onClose={setOpenConfirmation}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Você tem certeza que deseja excluir?"}
+          </DialogTitle>
+          <DialogActions>
+            <Button onClick={handleCloseConfirmation}>Não</Button>
+            <Button onClick={deleteInstrucao} autoFocus>
+              Sim
+            </Button>
+          </DialogActions>
+        </Dialog>
+        {expanded && ( 
         <div style={styles.modal} onClick={handleClick}>
           <div style={styles.modalContent} onClick={(e) => e.stopPropagation()}>
             <div style={{ fontWeight: 'bold', justifyContent: 'space-between', display: 'flex', paddingBottom: '20px' }}>
@@ -171,6 +181,6 @@ export function Item(props: any) {
           </div>
         </div>
       )}
-    </div>
-  );
+        </div>
+);
 };

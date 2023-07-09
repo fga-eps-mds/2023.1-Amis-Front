@@ -94,6 +94,10 @@ export function Supervisor() {
     setIsEditModalOpen(false);
   }
 
+  // function handleExport() {
+  //   //
+  // }
+
   useQuery("listar_supervisor", async () => {
     const supervisor = await listarSupervisor();
     if (supervisor instanceof AxiosError) {

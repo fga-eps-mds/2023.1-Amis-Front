@@ -6,13 +6,13 @@ export const cadastrarAssistente = async (payload: AssistentesCadastrarDTO) => {
     const response = await apiUser.post("/socialWorker/", payload);
     return response;
   } catch (error) {
-
+    //console.error(error);
     return error;
   }
 };
 
 export const listarAssistentes = async () => {
-
+  
   return await apiUser
     .get("/socialWorker/")
     .then((response) => response)

@@ -4,6 +4,10 @@ import styled from "styled-components";
 import home_image1 from "../../assets/home_image1.png";
 import home_image2 from "../../assets/home_image2.png";
 import PrimaryButton from "../../shared/components/PrimaryButton/PrimaryButton";
+import { QtdAlunasDTO } from "./dtos/QtdAlunas.dto";
+import axios from "axios";
+import { useQuery } from "react-query";
+import { QtdAlunasFormDTO } from "./dtos/QtdAlunasForm.dto";
 
 
 const DivPresentation = styled.div`
