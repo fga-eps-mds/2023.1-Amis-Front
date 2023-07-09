@@ -135,7 +135,6 @@ export function Professores() {
     trigger,
     handleSubmit,
     watch,
-    reset,
     formState: { errors },
   } = methods;
   
@@ -211,7 +210,6 @@ export function Professores() {
     if (response.status === 201) {
       handleClose();
       toast.success("Professor cadastrado com sucesso!");
-      reset();
     } else {
       toast.error("Erro ao cadastrar o professor.");
     }
@@ -480,6 +478,7 @@ export function Professores() {
                 </InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-password"
+                  autoComplete="new-password"
                   type={showPassword ? "text" : "password"}
                   {...register("senha")}
                   endAdornment={
@@ -509,17 +508,15 @@ export function Professores() {
                 />
               </FormControl>
 
-              <FormControl
-                sx={{ width: "100%", background: "#F5F4FF" }}
-                variant="outlined"
-              >
+              <FormControl sx={{ width: "100%", background: "#F5F4FF" }} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-confirm-password" required={true}>
                   Confirmar senha
                 </InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-confirm-password"
+                  autoComplete="new-password" // Add this line
                   type={showConfirmPassword ? "text" : "password"}
-                  {...register("senha_confirmada", { validate: validatePassword })}
+                  {...register("senha", { validate: validatePassword })}
                   endAdornment={
                     <InputAdornment position="end">
                       {showConfirmPassword ? (
@@ -546,11 +543,8 @@ export function Professores() {
                   label="Password********"
                 />
                 {errors.senha_confirmada && (
-                  <Typography
-                    variant="body2"
-                    color="error"
-                    sx={{ mt: 0.4, mb: -3 }}
-                  >Senha não corresponde!
+                  <Typography variant="body2" color="error" sx={{ mt: 0.4, mb: -3 }}>
+                    Senha não corresponde!
                   </Typography>
                 )}
               </FormControl>

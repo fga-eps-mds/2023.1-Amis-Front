@@ -1,4 +1,4 @@
-import { InstrucoesCadastrarDTO } from "../pages/instrucoes/dtos/InstrucoesCadastrar.dto";
+import { InstrucoesCadastrarDTO } from "../pages/cadastroInstrucao/dtos/InstrucoesCadastrar.dto";
 import { apiClassroom } from "./api";
 
 export const cadastrarInstrucao= async (payload: InstrucoesCadastrarDTO) => {
