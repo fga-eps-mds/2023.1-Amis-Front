@@ -12,14 +12,18 @@ import {
   Dialog,
   DialogActions,
   DialogTitle,
+  FormControl,
   IconButton,
+  InputAdornment,
+  InputLabel,
   Modal,
+  OutlinedInput,
   TextField,
   Typography,
 } from "@mui/material";
 import { GridRowId } from "@mui/x-data-grid";
 import { FormProvider, useForm } from "react-hook-form";
-import { AiFillEdit } from "react-icons/ai";
+import { AiFillEdit, AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
@@ -65,7 +69,12 @@ interface AxiosBadRequestError extends AxiosError {
 
 export function Supervisor() {
   const methods = useForm<SupervisorDTO>();
-  const { register, handleSubmit } = methods;
+  const { 
+          watch,
+          register, 
+          handleSubmit,
+          formState: { errors },
+        } = methods;
 
   const methodsForEdit = useForm<SupervisorDTO>();
   const {
@@ -75,7 +84,8 @@ export function Supervisor() {
   } = methodsForEdit;
 
   const [dataTable, setDataTable] = useState<SupervisorDTO[]>([]);
-
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -150,12 +160,6 @@ export function Supervisor() {
   }
 
   async function registerSupervisor(payload: SupervisorDTO) {
-    if (payload.senha !== payload.senhaConfirmada) {
-      toast.error("As senhas não coincidem", {
-        position: "bottom-right",
-      });
-      return;
-    }
 
     if (!payload.cpf) {
       toast.error("CPF inválido", {
@@ -210,6 +214,14 @@ export function Supervisor() {
     await queryClient.invalidateQueries("listar_supervisor");
     setIsRegisterModalOpen(false);
   }
+
+  const validatePassword = (value: any) => {
+    const password = watch("senha");
+    if (value === password) {
+      return true;
+   }
+  return "As senhas não correspondem";
+};
 
   const columnsTable: TableProps["columns"] = [
     {
@@ -313,24 +325,85 @@ export function Supervisor() {
                 {...register("login")}
                 sx={{ width: "100%", background: "#F5F4FF" }}
               />
-              <TextField
-                id="outlined-password"
-                label="Senha"
-                required={true}
-                type="password"
-                inputProps={{ maxLength: 70 }}
-                {...register("senha")}
+              <FormControl
                 sx={{ width: "100%", background: "#F5F4FF" }}
-              />
-              <TextField
-                id="outlined-confirmed-password"
-                label="Confirmar Senha"
-                type="password"
-                required={true}
-                inputProps={{ maxLength: 70 }}
-                {...register("senhaConfirmada")}
-                sx={{ width: "100%", background: "#F5F4FF" }}
-              />
+                variant="outlined"
+              >
+                <InputLabel htmlFor="outlined-adornment-password" required={true}>
+                  Senha
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  autoComplete="new-password"
+                  type={showPassword ? "text" : "password"}
+                  {...register("senha")}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      {showPassword ? (
+                        <AiFillEyeInvisible
+                          aria-label="toggle password visibility"
+                          onClick={() => {
+                            setShowPassword(!showPassword);
+                          }}
+                          cursor="pointer"
+                          size={20}
+                        />
+                      ) : (
+                        <AiFillEye
+                          aria-label="toggle password visibility"
+                          onClick={() => {
+                            setShowPassword(!showPassword);
+                          }}
+                          cursor="pointer"
+                          size={20}
+                        />
+                      )}
+                    </InputAdornment>
+                  }
+                  label="Password"
+                />
+              </FormControl>
+
+              <FormControl sx={{ width: "100%", background: "#F5F4FF" }} variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-confirm-password" required={true}>
+                  Confirmar senha
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-confirm-password"
+                  autoComplete="new-password" // Add this line
+                  type={showConfirmPassword ? "text" : "password"}
+                  {...register("senha", { validate: validatePassword })}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      {showConfirmPassword ? (
+                        <AiFillEyeInvisible
+                          aria-label="toggle password visibility"
+                          onClick={() => {
+                            setShowConfirmPassword(!showConfirmPassword);
+                          }}
+                          cursor="pointer"
+                          size={20}
+                        />
+                      ) : (
+                        <AiFillEye
+                          aria-label="toggle password visibility"
+                          onClick={() => {
+                            setShowConfirmPassword(!showConfirmPassword);
+                          }}
+                          cursor="pointer"
+                          size={20}
+                        />
+                      )}
+                    </InputAdornment>
+                  }
+                  label="Password********"
+                />
+                {errors.senhaConfirmada && (
+                  <Typography variant="body2" color="error" sx={{ mt: 0.4, mb: -3 }}>
+                    Senha não corresponde!
+                  </Typography>
+                )}
+              </FormControl>
               <ValueMask label="data_nascimento" />
               <ValueMask label="telefone" />
               <PrimaryButton data-testid="teste-cadastrar" text={"Confirmar"} />
