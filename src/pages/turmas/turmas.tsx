@@ -634,13 +634,6 @@ export function Turmas(this: any) {
             </FormText>
             <Form onSubmit={handleSubmit(registerTurmas)}>
               <TextField
-                id="outlined-codigo"
-                required={true}
-                label="Código"
-                {...register("codigo")}
-                sx={{ width: "100%", background: "#F5F4FF" }}
-              />
-              <TextField
                 id="outlined-curso"
                 required={true}
                 label="Curso"
