@@ -132,7 +132,6 @@ export function Curso() {
 
     const temp: CursosListarDTO[] = [];
     response.data.forEach((value: CursosListarDTO, index: number) => {
-      //console.log(value.nome);
       temp.push({
         id: value.id,
         nome: value.nome,
@@ -178,7 +177,6 @@ export function Curso() {
       descricao: data.descricaoEdit,
       duracaoHoras: data.duracaoEdit,
     };
-    console.log(curso.id)
 
     const response = await editarCurso(cursoEditado.id.toString(), cursoEditado);
     if (response.status === 201) {

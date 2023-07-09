@@ -81,10 +81,8 @@ export function Login() {
   const [loading, setLoading] = React.useState(false);
 
   const onSubmit = async (data: Props) => {
-    console.log(data);
     setLoading(true);
     const { login, senha, loginType } = data;
-    console.log(data);
     try {
       const request = await auth.authenticate(login, senha, loginType);
       if (request.token) {

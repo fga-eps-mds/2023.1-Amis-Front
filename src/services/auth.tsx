@@ -6,10 +6,7 @@ const api = axios.create({
   baseURL: import.meta.env.VITE_AMIS_API_BASE_URL_USER,
   
 });
-  console.log( {
-    baseURL: import.meta.env.VITE_AMIS_API_BASE_URL_USER,
-   
-  })
+  
 export async function LoginRequest(
   email: string,
   senha: string,

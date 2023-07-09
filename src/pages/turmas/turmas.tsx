@@ -321,7 +321,6 @@ export function Turmas(this: any) {
   };
 
   const deleteTurmas = async () => {
-    console.log(selectedTurma.toString());
     const response = await apagarTurmas(selectedTurma.toString());
 
     if (response.status === 204) {
@@ -426,7 +425,6 @@ export function Turmas(this: any) {
   };
 
   const desmatAluna = async (codigoTurma: number, idAluna: string) => {
-    console.log("id da aluna:"+idAluna);
     const response = await desmatricularAluna(codigoTurma, idAluna);
     if (response.status === 204) {
       toast.success("Aluna(s) removida(s) da turma com sucesso!");

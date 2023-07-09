@@ -188,10 +188,6 @@ export function ReceitasInstrucao() {
                   handleClick={async () => await removeReceita(Number(index))}
                 />
               )}
-              {/* <PrimaryButton
-                text={"Editar receita"}
-                handleClick={() => console.log("EDITAR RECEITA")}
-              /> */}
             </DivButtons>
           </Nav>
           <DivIngredientes>

@@ -176,7 +176,6 @@ export function CentroProdutivo() {
   };
   const handleCloseExportar = () => {
     setOpenExportar(false);
-    console.log("Fechar tela de exportação");
   };
 
   const {
@@ -202,7 +201,6 @@ export function CentroProdutivo() {
 
   const registerCentro = async (data: any) => {
     const dataFormatada = transformDate(data.data_agendada);
-    console.log(data);
     const centro = {
       data_agendada: dataFormatada,
       descricao: data.descricao,
@@ -255,15 +253,11 @@ export function CentroProdutivo() {
 
   const fazInscricao = async (centroProd: CentrosListarDTO) => {
     // Verifique se ainda há vagas disponíveis
-    // console.log("O que chegou aqui" + centroProd.idCentro);
-    console.log("O que chegou aqui", centroProd);
-    console.log("Login Aluno: ", auth);
     if (centroProd.vagasRestantes > 0) {
       const response = await inscreveAlunaCentro(
         centroProd.idCentro,
         auth.user?.email
       );
-      console.log(response);
       if (response.status === 201) {
         toast.success("Você foi cadastrada com sucesso!");
         await queryClient.invalidateQueries("listar_centro");
@@ -284,7 +278,6 @@ export function CentroProdutivo() {
         turno: centroProd.turno,
         vagas: centroProd.vagasRestantes,
       };
-      console.log(centroEditado);
       const response = await editarCentro(
         centroEditado.id.toString(),
         centroEditado
@@ -306,7 +299,6 @@ export function CentroProdutivo() {
         turno: centroProd.turno,
         vagas: centroProd.vagasRestantes,
       };
-      console.log(centroEditado.vagas);
       const response = await editarCentro(
         centroEditado.id.toString(),
         centroEditado
@@ -351,7 +343,6 @@ export function CentroProdutivo() {
   };
 
   const carregarCentro = async (id: any) => {
-    console.log("o id q chegou: " + id);
     const response = dataTable.find((element: any) => {
       if (element.idCentro === id) {
         return element;
@@ -359,7 +350,6 @@ export function CentroProdutivo() {
     });
     const centro = response as CentrosListarDTO;
     setCentro(centro);
-    console.log("Carregando o centro: " + centro);
     setValue("idEdit", centro.idCentro);
     setValue("vagasEdit", centro.vagasRestantes);
     setValue("data_agendadaEdit", centro.data_agendada);
@@ -378,7 +368,6 @@ export function CentroProdutivo() {
       turno: data.turnoEdit,
       vagas: data.vagasEdit,
     };
-    console.log(centroEditado);
 
     const response = await editarCentro(
       centroEditado.id.toString(),
@@ -413,7 +402,7 @@ export function CentroProdutivo() {
       headerName: "Ações",
       type: "actions",
       flex: 2.5,
-      hide: role === "student",
+      hide: role === "student" || role === "teacher",
       getActions: (params: any) => [
         <IconButton
           key={1}
@@ -500,12 +489,12 @@ export function CentroProdutivo() {
         }
       },
     },
-    { field: "vagasRestantes", headerName: "Vagas", flex: 1.5 },
+    { field: "vagasRestantes", headerName: "Vagas", flex: 1 },
     role === "student" && {
       field: "inscricao",
       headerName: "Inscrições",
       type: "actions",
-      flex: 1,
+      flex: 3,
       getActions: (params: any) => [
         <div>
           {vaga[Number(params.id)]?.vagasDisponiveis &&
@@ -524,7 +513,7 @@ export function CentroProdutivo() {
         </div>,
       ],
     },
-    role === "supervisor" || role === "socialWorker" && {
+    (role === "socialWorker" || role === "supervisor") && {
       field: "Agendar",
       headerName: "Agendar",
       type: "actions",
@@ -719,7 +708,7 @@ export function CentroProdutivo() {
       <Content>
         <Navbarlog text={"Centros Produtivos"} />
         <DivButtons>
-          {role !== "student" ? (
+          {(role !== "student" && role !== "teacher") ? (
             <ButtonAgendar
               text={"Agendar nova produção"}
               handleClick={handleOpen}

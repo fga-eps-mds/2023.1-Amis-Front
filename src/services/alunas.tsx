@@ -28,7 +28,6 @@ export const listaAlunaAtual = async (alunaId:string) => {
 
 
 export const editarAluna = async (alunaId: string, aluna: Object) => {
-  //console.log("Aluna id vai serrr:"+alunaId);
   try {
     const response = await apiUser.put("/student/" + alunaId, aluna);
     return response;

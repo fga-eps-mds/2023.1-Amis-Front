@@ -35,7 +35,6 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
   const [role, setRole] = useState<Roles | undefined>(undefined);
 
   async function authenticate(email: string, senha: string, role2: Roles) {
-    console.log({ email, senha });
     const response = await LoginRequest(email, senha, role2);
 
     const payload = {

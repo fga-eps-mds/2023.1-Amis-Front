@@ -25,7 +25,6 @@ export const editaProfessor = async (
   professorId: string,
   professorEdit: ProfessoresCadastrarDTO
 ) => {
-  //console.log("professor id:"+professorId)
   return await apiUser
     .put("/teacher/" + professorId, professorEdit)
     .then((response: any) => response);

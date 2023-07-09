@@ -17,7 +17,6 @@ export const listarCentro = async () => {
 };
 
 export const editarCentro = async (CentroId: string, Centro: Object) => {
-  console.log(Centro)
   return await apiProduction
     .put("/centro/" + CentroId, Centro)
     .then((response) => response)
@@ -44,7 +43,6 @@ export const cadastrarNotaAluno = async (payload: NotaAlunoCadastrarDTO) => {
 };
 
 export const listarAlunasCentro = async (CentroId: string) => {
-  console.log("O id que chegou:" + CentroId);
   return await apiProduction
     .get("/centro/" + CentroId + "/inscricoes/")
     .then((response) => response)

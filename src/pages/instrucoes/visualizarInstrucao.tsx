@@ -17,7 +17,6 @@ const styles: Styles = {
 const VisualizarInstrucao = (props: any | []) => {
   const handleClickModal = (id: any) => {
     // Chamando a função de callback passada como propriedade
-    console.log(id)
     props.openModal(id);
   }
 
